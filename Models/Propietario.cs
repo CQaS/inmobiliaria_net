@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace AplicacionPrueba.Models
 {
-    public class Inquilino
+    public class Propietario
     {
         public int Id { get; set; }
         public String Nombre { get; set; }
-        public String Mail { get; set; }
+        public int Dni { get; set; }
         public String Direccion { get; set; }
     }
 }

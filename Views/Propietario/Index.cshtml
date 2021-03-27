@@ -1,11 +1,11 @@
-﻿@model IEnumerable<AplicacionPrueba.Models.Inquilino>
+﻿@model IEnumerable<AplicacionPrueba.Models.Propietario>
 
 @{
-    ViewData["Title"] = "Index Inquilinos";
-    List<Inquilino> inquilinos = ViewData[nameof(Inquilino)] as List<Inquilino>;
+    ViewData["Title"] = "Index Propietarios";
+    List<Propietario> propietarios = ViewData[nameof(Propietario)] as List<Propietario>;
 }
 
-<h1>Nuestros Inquilinos Actuales</h1>
+<h1>Nuestros Propietarios Actuales</h1>
 
 <table class="table">
     <thead>
@@ -17,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mail)
+                @Html.DisplayNameFor(model => model.Dni)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Direccion)
@@ -26,7 +26,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in inquilinos) {
+@foreach (var item in propietarios) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
@@ -35,12 +35,12 @@
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Mail)
+                @Html.DisplayFor(modelItem => item.Dni)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
-            <td>
+            <td align="center">
                 <i class="fa fa-edit"></i>
                 @Html.ActionLink("Editar", "Edit", new { id=item.Id}) |
                 @Html.ActionLink("Detalles", "Details", new { id=item.Id }) |
