@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AplicacionPrueba.Models.Inquilino>
+
+@{
+    ViewData["Title"] = "Index Inquilinos";
+    List<Inquilino> inquilinos = ViewData[nameof(Inquilino)] as List<Inquilino>;
+}
+
+<h1>Personas</h1>
+
+<p>
+    <a asp-action="Create">Lista Inquilinos</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in inquilinos) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id=item.Id}) |
+                @Html.ActionLink("Detalles", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
