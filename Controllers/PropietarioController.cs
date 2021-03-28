@@ -23,7 +23,7 @@ namespace AplicacionPrueba.Controllers
         // GET: PersonaController1
         public IActionResult Index()
         {
-            lista.Add(new Persona { Id = 4, Nombre = "Janett" });*/
+            
             var lta = repositorioPropietario.obtener();
             ViewData[nameof(Propietario)] = lta;
             ViewBag.Persona = lta;
