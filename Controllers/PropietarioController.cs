@@ -23,7 +23,6 @@ namespace AplicacionPrueba.Controllers
         // GET: PersonaController1
         public IActionResult Index()
         {
-            
             var lta = repositorioPropietario.obtener();
             ViewData[nameof(Propietario)] = lta;
             ViewBag.Persona = lta;
@@ -33,7 +32,7 @@ namespace AplicacionPrueba.Controllers
         // GET: PersonaController1/Details/5
         public IActionResult Details(int id)
         {
-            var p = new Propietario { Id = id, Nombre = "Victoria" };
+            //var p = new Propietario { Id = id, Nombre = "Victoria" };
             return View();
         }
 
@@ -48,41 +47,46 @@ namespace AplicacionPrueba.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Alta(IFormCollection collection)
         {
-            try
+            Propietario in = new Propietario
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                Dni = int.Parse(collection["dni"]),
+                Nombre = collection["nombre"],
+                Direccion = collection["direccion"]
+                
+            };
+            repositorioPropietario.Alta(in);
+            return RedirectToAction("Index");
         }
 
         // GET: PersonaController1/Edit/5
-        public IActionResult Edit(int id)
+        public IActionResult Editar(int id)
         {
-            return View();
+            //RepositorioPropietario ri = new RepositorioPropietario();
+            Propietario in = repositorioPropietario.Buscar(id);
+            return View(in);
         }
 
         // POST: PersonaController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Editar(IFormCollection collection)
         {
-            try
+            Propietario in = new Propietario
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                Id = int.Parse(collection["id"].ToString()),
+                Dni = int.Parse(collection["dni"].ToString()),
+                Nombre = collection["nombre"].ToString(),
+                Direccion = collection["nombre"].ToString()
+            };
+            repositorioPropietario.Editar(in);
+            return RedirectToAction("Index");
         }
 
         // GET: PersonaController1/Delete/5
         public IActionResult Delete(int id)
         {
-            return View();
+            repositorioPropietario.Borrar(id);
+            return RedirectToAction("Index");
         }
 
         // POST: PersonaController1/Delete/5

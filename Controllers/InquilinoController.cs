@@ -47,7 +47,6 @@ namespace AplicacionPrueba.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Alta(IFormCollection collection)
         {
-            RepositorioInquilino ri = new RepositorioInquilino();
             Inquilino in = new Inquilino
             {
                 Dni = int.Parse(collection["dni"]),
@@ -56,15 +55,15 @@ namespace AplicacionPrueba.Controllers
                 Direccion = collection["direccion"]
                 
             };
-            ri.Alta(in);
+            repositorioInquilino.Alta(in);
             return RedirectToAction("Index");
         }
 
         // GET: PersonaController1/Edit/5
         public IActionResult Editar(int id)
         {
-            RepositorioInquilino ri = new RepositorioInquilino();
-            Inquilino in = ri.Buscar(id);
+            //RepositorioInquilino ri = new RepositorioInquilino();
+            Inquilino in = repositorioInquilino.Buscar(id);
             return View(in);
         }
 
@@ -73,7 +72,6 @@ namespace AplicacionPrueba.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Editar(IFormCollection collection)
         {
-            RepositorioInquilino ri = new RepositorioInquilino();
             Inquilino in = new Inquilino
             {
                 Id = int.Parse(collection["id"].ToString()),
@@ -82,15 +80,14 @@ namespace AplicacionPrueba.Controllers
                 Mail = collection["mail"].ToString(),
                 Direccion = collection["nombre"].ToString()
             };
-            ri.Editar(in);
+            repositorioInquilino.Editar(in);
             return RedirectToAction("Index");
         }
 
         // GET: PersonaController1/Delete/5
         public IActionResult Delete(int id)
         {
-            RepositorioInquilino ri = new RepositorioInquilino();
-            ri.Borrar(id);
+            repositorioInquilino.Borrar(id);
             return RedirectToAction("Index");
         }
 
