@@ -23,11 +23,6 @@ namespace AplicacionPrueba.Controllers
         // GET: PersonaController1
         public IActionResult Index()
         {
-            /*IList<Persona> lista = new List<Persona>();
-            lista.Add(new Persona { Id = 1, Nombre = "Victoria" });
-            lista.Add(new Persona { Id = 2, Nombre = "Samuel" });
-            lista.Add(new Persona { Id = 3, Nombre = "Damian" });
-            lista.Add(new Persona { Id = 4, Nombre = "Janett" });*/
             var lta = repositorioInquilino.obtener();
             ViewData[nameof(Inquilino)] = lta;
             ViewBag.Persona = lta;
@@ -37,56 +32,66 @@ namespace AplicacionPrueba.Controllers
         // GET: PersonaController1/Details/5
         public IActionResult Details(int id)
         {
-            var p = new Inquilino { Id = id, Nombre = "Victoria" };
+            //var p = new Inquilino { Id = id, Nombre = "Victoria" };
             return View();
         }
 
-        // GET: PersonaController1/Create
-        public IActionResult Create()
+        // GET: PersonaController1/Alta
+        public IActionResult Alta()
         {
             return View();
         }
 
-        // POST: PersonaController1/Create
+        // POST: PersonaController1/Alta
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection collection)
+        public IActionResult Alta(IFormCollection collection)
         {
-            try
+            RepositorioInquilino ri = new RepositorioInquilino();
+            Inquilino in = new Inquilino
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                Dni = int.Parse(collection["dni"]),
+                Nombre = collection["nombre"],
+                Mail = collection["mail"],
+                Direccion = collection["direccion"]
+                
+            };
+            ri.Alta(in);
+            return RedirectToAction("Index");
         }
 
         // GET: PersonaController1/Edit/5
-        public IActionResult Edit(int id)
+        public IActionResult Editar(int id)
         {
-            return View();
+            RepositorioInquilino ri = new RepositorioInquilino();
+            Inquilino in = ri.Buscar(id);
+            return View(in);
         }
 
         // POST: PersonaController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Editar(IFormCollection collection)
         {
-            try
+            RepositorioInquilino ri = new RepositorioInquilino();
+            Inquilino in = new Inquilino
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                Id = int.Parse(collection["id"].ToString()),
+                Dni = int.Parse(collection["dni"].ToString()),
+                Nombre = collection["nombre"].ToString(),
+                Mail = collection["mail"].ToString(),
+                Direccion = collection["nombre"].ToString()
+            };
+            ri.Editar(in);
+            return RedirectToAction("Index");
         }
 
         // GET: PersonaController1/Delete/5
         public IActionResult Delete(int id)
         {
-            return View();
+            RepositorioInquilino ri = new RepositorioInquilino();
+            ri.Borrar(id);
+            return RedirectToAction("Index");
         }
 
         // POST: PersonaController1/Delete/5

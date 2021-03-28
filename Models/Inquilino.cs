@@ -8,6 +8,7 @@ namespace AplicacionPrueba.Models
     public class Inquilino
     {
         public int Id { get; set; }
+        public int Dni { get; set; }
         public String Nombre { get; set; }
         public String Mail { get; set; }
         public String Direccion { get; set; }

@@ -41,16 +41,16 @@ namespace AplicacionPrueba.Controllers
             return View();
         }
 
-        // GET: PersonaController1/Create
-        public IActionResult Create()
+        // GET: PersonaController1/Alta
+        public IActionResult Alta()
         {
             return View();
         }
 
-        // POST: PersonaController1/Create
+        // POST: PersonaController1/Alta
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection collection)
+        public IActionResult Alta(IFormCollection collection)
         {
             try
             {
