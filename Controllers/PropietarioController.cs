@@ -23,10 +23,6 @@ namespace AplicacionPrueba.Controllers
         // GET: PersonaController1
         public IActionResult Index()
         {
-            /*IList<Persona> lista = new List<Persona>();
-            lista.Add(new Persona { Id = 1, Nombre = "Victoria" });
-            lista.Add(new Persona { Id = 2, Nombre = "Samuel" });
-            lista.Add(new Persona { Id = 3, Nombre = "Damian" });
             lista.Add(new Persona { Id = 4, Nombre = "Janett" });*/
             var lta = repositorioPropietario.obtener();
             ViewData[nameof(Propietario)] = lta;
