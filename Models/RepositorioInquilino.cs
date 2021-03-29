@@ -47,16 +47,16 @@ namespace AplicacionPrueba.Models
 
         public Inquilino Buscar(int id)
         {
+            Inquilino Inq;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 string sql = $"SELECT {nameof(Inquilino.Id)}, {nameof(Inquilino.Dni)}, {nameof(Inquilino.Nombre)}, Mail, {nameof(Inquilino.Direccion)}  FROM inquilinos where id=@idIn";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@codigo", MySqlDbType.Int32);
-                    command.Parameters["@idIn"].Value = id;
+                    command.Parameters.Add("@idIn", MySqlDbType.Int32).Value = id;
                     connection.Open();
                     MySqlDataReader res = command.ExecuteReader();
-                    Inquilino Inq = new Inquilino();
+                    Inq = new Inquilino();
                     if(res.Read())
                     {
                         Inq.Id = int.Parse(res["id"].ToString());
@@ -65,10 +65,10 @@ namespace AplicacionPrueba.Models
                         Inq.Mail = res["mail"].ToString();
                         Inq.Direccion = res["direccion"].ToString();
                     }
-                    connection.Close();
-                    return Inq;
+                    connection.Close();                                       
                 }
             }
+            return Inq;
         }
 
 

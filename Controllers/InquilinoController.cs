@@ -47,7 +47,7 @@ namespace AplicacionPrueba.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Alta(IFormCollection collection)
         {
-            Inquilino in = new Inquilino
+            /*Inquilino in = new Inquilino
             {
                 Dni = int.Parse(collection["dni"]),
                 Nombre = collection["nombre"],
@@ -55,32 +55,24 @@ namespace AplicacionPrueba.Controllers
                 Direccion = collection["direccion"]
                 
             };
-            repositorioInquilino.Alta(in);
+            repositorioInquilino.Alta(in);*/
             return RedirectToAction("Index");
         }
 
-        // GET: PersonaController1/Edit/5
+        // 
         public IActionResult Editar(int id)
         {
-            //RepositorioInquilino ri = new RepositorioInquilino();
-            Inquilino in = repositorioInquilino.Buscar(id);
-            return View(in);
+            Inquilino i = repositorioInquilino.Buscar(id); 
+            return View(i);
         }
 
-        // POST: PersonaController1/Edit/5
+        // 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Editar(IFormCollection collection)
+        public IActionResult Editar(Inquilino i)
         {
-            Inquilino in = new Inquilino
-            {
-                Id = int.Parse(collection["id"].ToString()),
-                Dni = int.Parse(collection["dni"].ToString()),
-                Nombre = collection["nombre"].ToString(),
-                Mail = collection["mail"].ToString(),
-                Direccion = collection["nombre"].ToString()
-            };
-            repositorioInquilino.Editar(in);
+            RepositorioInquilino riEdit = new RepositorioInquilino();
+            riEdit.Editar(i);
             return RedirectToAction("Index");
         }
 

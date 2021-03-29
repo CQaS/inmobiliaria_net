@@ -46,27 +46,28 @@ namespace AplicacionPrueba.Models
 
         public Propietario Buscar(int id)
         {
+            Propietario Pro;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}  FROM propietarios where id=@idIn";
+                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}  FROM propietarios where id=@idP";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@codigo", MySqlDbType.Int32);
-                    command.Parameters["@idIn"].Value = id;
+                    command.Parameters.Add("@idP", MySqlDbType.Int32).Value = id;
                     connection.Open();
                     MySqlDataReader res = command.ExecuteReader();
-                    Propietario Inq = new Propietario();
+                    Pro = new Propietario();
                     if(res.Read())
                     {
-                        Inq.Id = int.Parse(res["id"].ToString());
-                        Inq.Dni = int.Parse(res["dni"].ToString());
-                        Inq.Nombre = res["nombre"].ToString();
-                        Inq.Direccion = res["direccion"].ToString();
+                        Pro.Id = int.Parse(res["id"].ToString());
+                        Pro.Dni = int.Parse(res["dni"].ToString());
+                        Pro.Nombre = res["nombre"].ToString();
+                        Pro.Direccion = res["direccion"].ToString();
                     }
                     connection.Close();
-                    return Inq;
+                    
                 }
             }
+            return Pro;
         }
 
 

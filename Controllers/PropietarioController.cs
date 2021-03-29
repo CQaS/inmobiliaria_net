@@ -32,7 +32,6 @@ namespace AplicacionPrueba.Controllers
         // GET: PersonaController1/Details/5
         public IActionResult Details(int id)
         {
-            //var p = new Propietario { Id = id, Nombre = "Victoria" };
             return View();
         }
 
@@ -47,38 +46,31 @@ namespace AplicacionPrueba.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Alta(IFormCollection collection)
         {
-            Propietario in = new Propietario
+            /*Propietario in = new Propietario
             {
                 Dni = int.Parse(collection["dni"]),
                 Nombre = collection["nombre"],
                 Direccion = collection["direccion"]
                 
             };
-            repositorioPropietario.Alta(in);
+            repositorioPropietario.Alta(in);*/
             return RedirectToAction("Index");
         }
 
-        // GET: PersonaController1/Edit/5
+        // 
         public IActionResult Editar(int id)
-        {
-            //RepositorioPropietario ri = new RepositorioPropietario();
-            Propietario in = repositorioPropietario.Buscar(id);
-            return View(in);
+        { 
+            Propietario p = repositorioPropietario.Buscar(id);            
+            return View(p);
         }
 
-        // POST: PersonaController1/Edit/5
+        // 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Editar(IFormCollection collection)
+        public IActionResult Editar(Propietario p)
         {
-            Propietario in = new Propietario
-            {
-                Id = int.Parse(collection["id"].ToString()),
-                Dni = int.Parse(collection["dni"].ToString()),
-                Nombre = collection["nombre"].ToString(),
-                Direccion = collection["nombre"].ToString()
-            };
-            repositorioPropietario.Editar(in);
+            RepositorioPropietario riEdit = new RepositorioPropietario();
+            riEdit.Editar(p);
             return RedirectToAction("Index");
         }
 
