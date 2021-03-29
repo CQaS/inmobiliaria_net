@@ -76,7 +76,7 @@ namespace AplicacionPrueba.Models
             var res = -1;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"INSERT INTO propietarios(Dni, Nombre, direccion) VALUES (@dni,@nombre,@mail,@direccion)";
+                string sql = $"INSERT INTO propietarios(Dni, Nombre, direccion) VALUES (@dni,@nombre,@direccion)";
                 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -89,14 +89,6 @@ namespace AplicacionPrueba.Models
                     connection.Open();
                     command.ExecuteScalar();
                     connection.Close();
-
-                    /*command.Parameters.AddWithValue("@nombre", e.Nombre);
-                    command.Parameters.AddWithValue("@email", e.Mail);
-                    connection.Open();
-                    //res = Convert.ToInt32(command.ExecuteScalar());
-                    command.ExecuteScalar();
-                    //e.Id = res;
-                    connection.Close();*/
                 }
                 
                 string sql_ID = $"SELECT MAX(id) AS id FROM propietarios";
@@ -104,7 +96,7 @@ namespace AplicacionPrueba.Models
                 using (var command = new MySqlCommand(sql_ID, connection))
                 {
                     connection.Open();
-                    res = Convert.ToInt32(command.ExecuteReader());
+                    res = Convert.ToInt32(command.ExecuteScalar());
                     connection.Close();
                 }
             }

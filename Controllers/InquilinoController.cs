@@ -45,17 +45,10 @@ namespace AplicacionPrueba.Controllers
         // POST: PersonaController1/Alta
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Alta(IFormCollection collection)
+        public IActionResult Alta(Inquilino i)
         {
-            /*Inquilino in = new Inquilino
-            {
-                Dni = int.Parse(collection["dni"]),
-                Nombre = collection["nombre"],
-                Mail = collection["mail"],
-                Direccion = collection["direccion"]
-                
-            };
-            repositorioInquilino.Alta(in);*/
+            RepositorioInquilino alta = new RepositorioInquilino();
+            alta.Alta(i);
             return RedirectToAction("Index");
         }
 
