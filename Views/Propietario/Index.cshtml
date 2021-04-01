@@ -22,6 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tel)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -40,7 +43,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
-            <td align="center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Tel)
+            </td>
+            <td>
                 <i class="fa fa-edit"></i>
                 @Html.ActionLink("Editar", "Editar", new { id=item.Id}) |
                 <i class="fa fa-trash"></i>

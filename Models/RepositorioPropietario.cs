@@ -20,8 +20,8 @@ namespace AplicacionPrueba.Models
         {
             var res = new List<Propietario>();
             using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}  FROM propietarios";
+            {//id nombre dni direccion tel
+                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}, {nameof(Propietario.Tel)}  FROM propietarios";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -34,6 +34,7 @@ namespace AplicacionPrueba.Models
                             Dni = reader.GetInt32(1),
                             Nombre = reader.GetString(2),
                             Direccion = reader.GetString(3),
+                            Tel = reader.GetInt32(4),
                         };
                         res.Add(e);
                     }
@@ -49,7 +50,7 @@ namespace AplicacionPrueba.Models
             Propietario Pro;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}  FROM propietarios where id=@idP";
+                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}, {nameof(Propietario.Tel)}  FROM propietarios where id=@idP";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@idP", MySqlDbType.Int32).Value = id;
@@ -62,6 +63,7 @@ namespace AplicacionPrueba.Models
                         Pro.Dni = int.Parse(res["dni"].ToString());
                         Pro.Nombre = res["nombre"].ToString();
                         Pro.Direccion = res["direccion"].ToString();
+                        Pro.Tel = int.Parse(res["tel"].ToString());
                     }
                     connection.Close();
                     
@@ -76,16 +78,18 @@ namespace AplicacionPrueba.Models
             var res = -1;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"INSERT INTO propietarios(Dni, Nombre, direccion) VALUES (@dni,@nombre,@direccion)";
+                string sql = $"INSERT INTO propietarios(Dni, Nombre, direccion, Tel) VALUES (@dni,@nombre,@direccion,@tel)";
                 
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@dni", MySqlDbType.Int32);
                     command.Parameters.Add("@nombre", MySqlDbType.VarChar);
                     command.Parameters.Add("@direccion", MySqlDbType.VarChar);
+                    command.Parameters.Add("@tel", MySqlDbType.Int32);
                     command.Parameters["@dni"].Value = e.Dni;
                     command.Parameters["@nombre"].Value = e.Nombre;
                     command.Parameters["@direccion"].Value = e.Direccion;
+                    command.Parameters["@tel"].Value = e.Tel;
                     connection.Open();
                     command.ExecuteScalar();
                     connection.Close();
@@ -108,7 +112,7 @@ namespace AplicacionPrueba.Models
             var i = 0;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"update propietarios set Dni=@dni, Nombre=@nombre, Direccion=@direccion where Id=@id";
+                string sql = $"update propietarios set Dni=@dni, Nombre=@nombre, Direccion=@direccion, Tel=@tel where Id=@id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -118,6 +122,8 @@ namespace AplicacionPrueba.Models
                     command.Parameters["@nombre"].Value = e.Nombre;
                     command.Parameters.Add("@direccion", MySqlDbType.VarChar);
                     command.Parameters["@direccion"].Value = e.Direccion;
+                    command.Parameters.Add("@tel", MySqlDbType.VarChar);
+                    command.Parameters["@tel"].Value = e.Tel;
                     command.Parameters.Add("@id", MySqlDbType.VarChar);
                     command.Parameters["@id"].Value = e.Id;
                     connection.Open();

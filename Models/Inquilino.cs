@@ -12,5 +12,10 @@ namespace AplicacionPrueba.Models
         public String Nombre { get; set; }
         public String Mail { get; set; }
         public String Direccion { get; set; }
+        public int tel_inquilino { get; set; }
+        public String lugarTrabajo { get; set; }
+        public String nom_garante { get; set; }
+        public int dni_garante { get; set; }
+        public int tel_garante { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace AplicacionPrueba.Models
         public String Nombre { get; set; }
         public int Dni { get; set; }
         public String Direccion { get; set; }
+        public int Tel { get; set; }
     }
 }

@@ -13,7 +13,9 @@ namespace AplicacionPrueba.Controllers
     public class InquilinoController : Controller
     {
         private readonly ILogger<InquilinoController> _logger;
+
         private readonly RepositorioInquilino repositorioInquilino;
+
         public InquilinoController(ILogger<InquilinoController> logger)
         {
             repositorioInquilino = new RepositorioInquilino();
@@ -32,7 +34,6 @@ namespace AplicacionPrueba.Controllers
         // GET: PersonaController1/Details/5
         public IActionResult Details(int id)
         {
-            //var p = new Inquilino { Id = id, Nombre = "Victoria" };
             return View();
         }
 
