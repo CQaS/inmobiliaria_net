@@ -22,7 +22,7 @@ namespace AplicacionPrueba.Controllers
             _logger = logger;
         }
 
-        // GET: PersonaController1
+        // GET: 
         public IActionResult Index()
         {
             var lta = repositorioInquilino.obtener();
@@ -31,19 +31,19 @@ namespace AplicacionPrueba.Controllers
             return View();
         }
 
-        // GET: PersonaController1/Details/5
+        // GET: 
         public IActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: PersonaController1/Alta
+        // GET: 
         public IActionResult Alta()
         {
             return View();
         }
 
-        // POST: PersonaController1/Alta
+        // POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Alta(Inquilino i)
@@ -53,12 +53,13 @@ namespace AplicacionPrueba.Controllers
             return RedirectToAction("Index");
         }
 
-        // 
+        // GET
         public IActionResult Editar(int id)
         {
             Inquilino i = repositorioInquilino.Buscar(id); 
             return View(i);
         }
+
 
         // 
         [HttpPost]
@@ -70,14 +71,14 @@ namespace AplicacionPrueba.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: PersonaController1/Delete/5
+        // 
         public IActionResult Delete(int id)
         {
             repositorioInquilino.Borrar(id);
             return RedirectToAction("Index");
         }
 
-        // POST: PersonaController1/Delete/5
+        // POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id, IFormCollection collection)

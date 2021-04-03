@@ -20,7 +20,7 @@ namespace AplicacionPrueba.Controllers
             _logger = logger;
         }
 
-        // GET: PersonaController1
+        // GET: 
         public IActionResult Index()
         {
             var lta = repositorioPropietario.obtener();
@@ -29,19 +29,19 @@ namespace AplicacionPrueba.Controllers
             return View();
         }
 
-        // GET: PersonaController1/Details/5
+        // GET: 
         public IActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: PersonaController1/Alta
+        // GET: 
         public IActionResult Alta()
         {
             return View();
         }
 
-        // POST: PersonaController1/Alta
+        // POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Alta(Propietario p)
@@ -68,14 +68,14 @@ namespace AplicacionPrueba.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: PersonaController1/Delete/5
+        // GET: /Delete/5
         public IActionResult Delete(int id)
         {
             repositorioPropietario.Borrar(id);
             return RedirectToAction("Index");
         }
 
-        // POST: PersonaController1/Delete/5
+        // POST: /Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id, IFormCollection collection)
