@@ -1,0 +1,58 @@
+﻿@model IEnumerable<AplicacionPrueba.Models.Inmueble>
+
+@{
+    ViewData["Title"] = "Index Inmuebles";
+    List<Inmueble> inmuebles = ViewData[nameof(Inmueble)] as List<Inmueble>;
+}
+
+<h1>Nuestros Inmuebles Actuales</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_inmu)
+            </th>
+            <th>
+                Direccion
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.precio)
+            </th>
+            <th>
+                Dueño del Inmueble
+            </th>         
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in inmuebles) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_inmu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion_in)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.precio)
+            </td>
+            <td>
+                @(item.Duenio.Nombre)
+            </td>
+            <td>
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=item.Id_inmu}) |
+                <i class="fa fa-info-circle"></i>
+                @Html.ActionLink("Detalles", "Detalles", new { id=item.Id_inmu}) |
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id_inmu})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Alta" class="btn btn-primary">Crear Inmuebles</a>
+</p>

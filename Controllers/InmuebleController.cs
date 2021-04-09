@@ -10,47 +10,46 @@ using System.Threading.Tasks;
 
 namespace AplicacionPrueba.Controllers
 {
-    public class InquilinoController : Controller
+    public class InmuebleController : Controller
     {
-        private readonly ILogger<InquilinoController> _logger;
+        private readonly ILogger<InmuebleController> _logger;
 
-        private readonly RepositorioInquilino repositorioInquilino;
+        private readonly RepositorioInmueble repositorioInmueble;
+        private readonly RepositorioPropietario repositorioPropietario;
 
-        public InquilinoController(ILogger<InquilinoController> logger)
+        public InmuebleController(ILogger<InmuebleController> logger)
         {
-            repositorioInquilino = new RepositorioInquilino();
+            repositorioInmueble = new RepositorioInmueble();
+            repositorioPropietario = new RepositorioPropietario();
             _logger = logger;
         }
 
         // GET: 
         public IActionResult Index()
         {
-            var lta = repositorioInquilino.obtener();
-            ViewData[nameof(Inquilino)] = lta;
+            var lta = repositorioInmueble.obtener();
+            ViewData[nameof(Inmueble)] = lta;
             ViewBag.Persona = lta;
-            return View();
-        }
-
-        // GET: 
-        public IActionResult Details(int id)
-        {
             return View();
         }
 
         // GET: 
         public IActionResult Alta()
         {
+            var lta = repositorioPropietario.obtener();
+            ViewData[nameof(Propietario)] = lta;
+            ViewBag.Persona = lta;
             return View();
         }
 
         // POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Alta(Inquilino i)
+        public IActionResult Alta(Inmueble i)
         {
             try
             {
-            RepositorioInquilino alta = new RepositorioInquilino();
+            RepositorioInmueble alta = new RepositorioInmueble();
             alta.Alta(i);
             return RedirectToAction("Index");
             }
@@ -65,7 +64,7 @@ namespace AplicacionPrueba.Controllers
         // GET
         public IActionResult Editar(int id)
         {
-            Inquilino i = repositorioInquilino.Buscar(id); 
+            Inmueble i = repositorioInmueble.Buscar(id); 
             return View(i);
         }
 
@@ -73,11 +72,11 @@ namespace AplicacionPrueba.Controllers
         // 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Editar(Inquilino i)
+        public IActionResult Editar(Inmueble i)
         {
             try
             {
-            RepositorioInquilino riEdit = new RepositorioInquilino();
+            RepositorioInmueble riEdit = new RepositorioInmueble();
             riEdit.Editar(i);
             return RedirectToAction("Index");
             }
@@ -91,14 +90,14 @@ namespace AplicacionPrueba.Controllers
 
         public IActionResult Detalles(int id)
         {
-            Inquilino i = repositorioInquilino.Buscar(id); 
+            Inmueble i = repositorioInmueble.Buscar(id); 
             return View(i);
         }
 
         // 
         public IActionResult Delete(int id)
         {
-            repositorioInquilino.Borrar(id);
+            repositorioInmueble.Borrar(id);
             return RedirectToAction("Index");
         }
 

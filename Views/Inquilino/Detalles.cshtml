@@ -1,0 +1,60 @@
+﻿@model AplicacionPrueba.Models.Inquilino
+
+@{
+    ViewData["Title"] = "Detalles de Inquilino";
+    int id = Model.Id;
+}
+
+<h1>Datalles del Inquilinos: @Model.Nombre</h1>
+
+<div class="container">
+    <div>
+       <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                Nombre del Garante
+            </th>
+            <th>
+                Telef. del Garante
+            </th>          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Model.Nombre
+            </td>
+            <td>
+                @Model.Mail
+            </td>
+            <td>
+                @Model.Direccion
+            </td>
+            <td>
+                @Model.nom_garante
+            </td>
+            <td>
+                @Model.tel_garante
+            </td>
+            <td>
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=Model.Id}) |
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id})
+            </td>
+        </tr>
+    </tbody>
+    </table> 
+    </div>
+</div>

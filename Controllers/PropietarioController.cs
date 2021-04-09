@@ -30,12 +30,6 @@ namespace AplicacionPrueba.Controllers
         }
 
         // GET: 
-        public IActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: 
         public IActionResult Alta()
         {
             return View();
@@ -46,9 +40,18 @@ namespace AplicacionPrueba.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Alta(Propietario p)
         {
-            RepositorioPropietario alta = new RepositorioPropietario();
-            alta.Alta(p);
-            return RedirectToAction("Index");
+            try
+            {
+                RepositorioPropietario alta = new RepositorioPropietario();
+                alta.Alta(p);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Index");
+            }
         }
 
         // 
@@ -63,9 +66,24 @@ namespace AplicacionPrueba.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Editar(Propietario p)
         {
+            try
+            {
             RepositorioPropietario riEdit = new RepositorioPropietario();
             riEdit.Editar(p);
             return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(p);
+            }
+        }
+
+        public IActionResult Detalles(int id)
+        { 
+            Propietario p = repositorioPropietario.Buscar(id);            
+            return View(p);
         }
 
         // GET: /Delete/5

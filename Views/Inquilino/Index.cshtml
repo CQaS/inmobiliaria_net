@@ -21,19 +21,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.tel_inquilino)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.lugarTrabajo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.nom_garante)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.tel_garante)
-            </th>            
+            </th>          
             <th></th>
         </tr>
     </thead>
@@ -53,20 +41,10 @@
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.tel_inquilino)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.lugarTrabajo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nom_garante)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tel_garante)
-            </td>
-            <td>
                 <i class="fa fa-edit"></i>
                 @Html.ActionLink("Editar", "Editar", new { id=item.Id}) |
+                <i class="fa fa-info-circle"></i>
+                @Html.ActionLink("Detalles", "Detalles", new { id=item.Id}) |
                 <i class="fa fa-trash"></i>
                 @Html.ActionLink("Eliminar", "Delete", new { id=item.Id})
             </td>

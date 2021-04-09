@@ -1,0 +1,61 @@
+﻿@model AplicacionPrueba.Models.Propietario
+
+@{
+    ViewData["Title"] = "Detalles de Propietario";
+    int id = Model.Id;
+}
+
+<h1>Datalles del Propietario: @Model.Nombre</h1>
+<br><br>
+
+<div class="container">
+    <div>
+       <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dni)
+            </th>
+            <th>
+                Telefono
+            </th>
+            <th>
+                Nro. Cliente
+            </th>          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Model.Nombre
+            </td>
+            <td>
+                @Model.Direccion
+            </td>
+            <td>
+                @Model.Dni
+            </td>
+            <td>
+                @Model.Tel
+            </td>
+            <td>
+                @Model.Id
+            </td>
+            <td>
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=Model.Id}) |
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id})
+            </td>
+        </tr>
+    </tbody>
+    </table> 
+    </div>
+</div>
