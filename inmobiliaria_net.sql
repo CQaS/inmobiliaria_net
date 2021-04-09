@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-04-2021 a las 21:02:11
+-- Tiempo de generación: 09-04-2021 a las 20:45:30
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -43,21 +43,24 @@ CREATE TABLE `contrato` (
 --
 
 CREATE TABLE `inmueble` (
-  `id` int(10) NOT NULL,
-  `direccion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `id_Inmu` int(10) NOT NULL,
+  `direccion_in` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `uso` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `tipo` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `ambientes` int(5) NOT NULL,
-  `precio` int(10) NOT NULL
+  `precio` int(10) NOT NULL,
+  `id_propietario` int(5) NOT NULL,
+  `estado` int(5) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `inmueble`
 --
 
-INSERT INTO `inmueble` (`id`, `direccion`, `uso`, `tipo`, `ambientes`, `precio`) VALUES
-(1, 'Av. del Cipres 100', 'comercial', 'deposito', 3, 25000),
-(2, 'Av Mercau 25', 'residencia', 'departamento', 4, 30000);
+INSERT INTO `inmueble` (`id_Inmu`, `direccion_in`, `uso`, `tipo`, `ambientes`, `precio`, `id_propietario`, `estado`) VALUES
+(1, 'El cipres 100', 'temporal', 'deposito', 2, 8000, 4, 1),
+(2, 'Av Mercau 250', 'residencia', 'departamento', 4, 30000, 8, 1),
+(3, 'Los Incas 3444', 'Cabaña', 'Hogar', 5, 12500, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -144,7 +147,7 @@ ALTER TABLE `contrato`
 -- Indices de la tabla `inmueble`
 --
 ALTER TABLE `inmueble`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_Inmu`);
 
 --
 -- Indices de la tabla `inquilinos`
@@ -172,7 +175,7 @@ ALTER TABLE `contrato`
 -- AUTO_INCREMENT de la tabla `inmueble`
 --
 ALTER TABLE `inmueble`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_Inmu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `inquilinos`
