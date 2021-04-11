@@ -29,7 +29,6 @@ namespace AplicacionPrueba.Controllers
         {
             var lta = repositorioInmueble.obtener();
             ViewData[nameof(Inmueble)] = lta;
-            ViewBag.Persona = lta;
             return View();
         }
 
@@ -38,7 +37,6 @@ namespace AplicacionPrueba.Controllers
         {
             var lta = repositorioPropietario.obtener();
             ViewData[nameof(Propietario)] = lta;
-            ViewBag.Persona = lta;
             return View();
         }
 
@@ -49,9 +47,18 @@ namespace AplicacionPrueba.Controllers
         {
             try
             {
-            RepositorioInmueble alta = new RepositorioInmueble();
-            alta.Alta(i);
-            return RedirectToAction("Index");
+                if(ModelState.IsValid)
+                {
+                    RepositorioInmueble alta = new RepositorioInmueble();
+                    alta.Alta(i);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var lta = repositorioPropietario.obtener();
+                    ViewData[nameof(Propietario)] = lta;
+                    return View(i);
+                }
             }
             catch (Exception ex)
             {
@@ -64,7 +71,9 @@ namespace AplicacionPrueba.Controllers
         // GET
         public IActionResult Editar(int id)
         {
-            Inmueble i = repositorioInmueble.Buscar(id); 
+            Inmueble i = repositorioInmueble.Buscar(id);
+            var lta = repositorioPropietario.obtener();
+            ViewData[nameof(Propietario)] = lta;
             return View(i);
         }
 

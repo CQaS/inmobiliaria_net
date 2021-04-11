@@ -31,6 +31,16 @@
                 <label for="precio" class="control-label">Precio</label>
                 <input type="text" class="form-control" id="precio" name="precio" value="@Model.precio">
             </div>
+            <div>
+                <label class="control-label">Propietario</label>
+                <select class="form-control" name="idPro">
+                    @foreach (var item in (IList<Propietario>)ViewBag.Propietario)
+                    {
+                        @:<option @(item.Id == Model.id_propietario ? "Selected" : "") value="@item.Id">@(item.Nombre)</option>
+                    }
+                </select>
+                <span asp-validation-for="id_propietario" class="text-danger"></span>
+            </div>
             <input type="submit" value="Confirmar" />
         </form>
     </div>

@@ -8,19 +8,13 @@
 <h1>Nuestros Inmuebles Actuales</h1>
 
 <table class="table">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id_inmu)
-            </th>
-            <th>
-                Direccion
+                @Html.DisplayNameFor(model => model.Direccion_in)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.precio)
-            </th>
-            <th>
-                Dueño del Inmueble
             </th>         
             <th></th>
         </tr>
@@ -29,16 +23,10 @@
 @foreach (var item in inmuebles) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id_inmu)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Direccion_in)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.precio)
-            </td>
-            <td>
-                @(item.Duenio.Nombre)
             </td>
             <td>
                 <i class="fa fa-edit"></i>
@@ -46,7 +34,7 @@
                 <i class="fa fa-info-circle"></i>
                 @Html.ActionLink("Detalles", "Detalles", new { id=item.Id_inmu}) |
                 <i class="fa fa-trash"></i>
-                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id_inmu})
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id_inmu}, new { onclick = "return confirm('Borrar el Inmueble de: " + @item.Duenio.Nombre + "?')" })
             </td>
         </tr>
 }

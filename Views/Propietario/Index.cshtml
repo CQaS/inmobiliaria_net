@@ -8,7 +8,7 @@
 <h1>Nuestros Propietarios Actuales</h1>
 
 <table class="table" style="margin-bottom:45px">
-    <thead>
+    <thead class="thead-dark">
         <tr align="center">
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -34,7 +34,7 @@
                 <i class="fa fa-info-circle"></i>
                 @Html.ActionLink("Detalles", "Detalles", new { id=item.Id}) |
                 <i class="fa fa-trash"></i>
-                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id})
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Borrar al Propietario: " + @item.Nombre + "?')" })
             </td>
         </tr>
 }

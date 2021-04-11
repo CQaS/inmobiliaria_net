@@ -8,7 +8,7 @@
 <h1>Nuestros Inquilinos Actuales</h1>
 
 <table class="table">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
@@ -46,7 +46,7 @@
                 <i class="fa fa-info-circle"></i>
                 @Html.ActionLink("Detalles", "Detalles", new { id=item.Id}) |
                 <i class="fa fa-trash"></i>
-                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id})
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Borrar al Inquilino: " + @item.Nombre + "?')" })
             </td>
         </tr>
 }

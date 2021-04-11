@@ -1,11 +1,11 @@
-﻿@model AplicacionPrueba.Models.Inquilino
+﻿@model AplicacionPrueba.Models.Inmueble
 
 @{
-    ViewData["Title"] = "Detalles de Inquilino";
-    int id = Model.Id;
+    ViewData["Title"] = "Detalles de Inmueble";
+    int id = Model.Id_inmu;
 }
 
-<h1>Datalles del Inquilinos: @Model.Nombre</h1>
+<h1>Datalles del Inmueble: @Model.Direccion_in</h1>
 
 <div class="container">
     <div>
@@ -13,19 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nombre)
+                @Html.DisplayNameFor(model => model.Id_inmu)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mail)
+                Direccion
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Direccion)
+                @Html.DisplayNameFor(model => model.precio)
             </th>
             <th>
-                Nombre del Garante
+                @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
-                Telef. del Garante
+                @Html.DisplayNameFor(model => model.Uso)
             </th>          
             <th></th>
         </tr>
@@ -33,25 +33,25 @@
     <tbody>
         <tr>
             <td>
-                @Model.Nombre
+                @Model.Id_inmu
             </td>
             <td>
-                @Model.Mail
+                @Model.Direccion_in
             </td>
             <td>
-                @Model.Direccion
+                @Model.precio
             </td>
             <td>
-                @Model.nom_garante
+                @Model.Tipo
             </td>
             <td>
-                @Model.tel_garante
+                @Model.Uso
             </td>
             <td>
                 <i class="fa fa-edit"></i>
-                @Html.ActionLink("Editar", "Editar", new { id=Model.Id}) |
+                @Html.ActionLink("Editar", "Editar", new { id=Model.Id_inmu}) |
                 <i class="fa fa-trash"></i>
-                @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id})
+                @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id_inmu})
             </td>
         </tr>
     </tbody>

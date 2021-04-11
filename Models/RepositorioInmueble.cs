@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
- uf
+ 
 namespace AplicacionPrueba.Models
 {
     public class RepositorioInmueble
@@ -92,7 +92,7 @@ namespace AplicacionPrueba.Models
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.CommandType = System.Data.CommandType.Text;
-					command.Parameters.AddWithValue("@direccion", e.Direccion_in);
+					command.Parameters.AddWithValue("@direccion_in", e.Direccion_in);
                     command.Parameters.AddWithValue("@uso", e.Uso);
                     command.Parameters.AddWithValue("@tipo", e.Tipo);
                     command.Parameters.AddWithValue("@ambientes", e.ambientes);
@@ -148,12 +148,12 @@ namespace AplicacionPrueba.Models
             var i = 0;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"delete from inmueble where id_inmu=@idIn";
+                string sql = $"update inmueble set estado='0' where Id_inmu=@id_Inm";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
-                    command.Parameters.Add("@idIn", MySqlDbType.UInt32);
-                    command.Parameters["@idIn"].Value = idIn;
+                    command.Parameters.Add("@id_Inm", MySqlDbType.UInt32);
+                    command.Parameters["@id_Inm"].Value = idIn;
                     connection.Open();
                     i = command.ExecuteNonQuery();
                     connection.Close();
