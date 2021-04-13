@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-04-2021 a las 20:45:30
+-- Tiempo de generación: 13-04-2021 a las 17:33:55
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -33,8 +33,21 @@ CREATE TABLE `contrato` (
   `fe_fin` date NOT NULL,
   `monto` int(11) NOT NULL,
   `id_inmueble` int(10) NOT NULL,
-  `id_inquilino` int(10) NOT NULL
+  `id_inquilino` int(10) NOT NULL,
+  `estado` int(5) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `contrato`
+--
+
+INSERT INTO `contrato` (`id`, `fe_ini`, `fe_fin`, `monto`, `id_inmueble`, `id_inquilino`, `estado`) VALUES
+(1, '2021-04-15', '2030-10-16', 960000, 1, 3, 1),
+(2, '2021-04-01', '2022-12-31', 50000, 3, 8, 0),
+(3, '2021-04-21', '2021-10-21', 50000, 4, 8, 1),
+(4, '2021-04-14', '2021-04-15', 205000, 1, 7, 1),
+(5, '2025-10-15', '2025-10-15', 44050, 4, 8, 0),
+(6, '2001-01-01', '2001-01-01', 34050, 3, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -59,8 +72,9 @@ CREATE TABLE `inmueble` (
 
 INSERT INTO `inmueble` (`id_Inmu`, `direccion_in`, `uso`, `tipo`, `ambientes`, `precio`, `id_propietario`, `estado`) VALUES
 (1, 'El cipres 100', 'temporal', 'deposito', 2, 8000, 4, 1),
-(2, 'Av Mercau 250', 'residencia', 'departamento', 4, 30000, 8, 1),
-(3, 'Los Incas 3444', 'Cabaña', 'Hogar', 5, 12500, 4, 0);
+(2, 'Av Mercau 250', 'residencia', 'departamento', 4, 30000, 8, 0),
+(3, 'Los Incas 3444', 'Cabaña', 'Hogar', 5, 12500, 4, 0),
+(4, 'Jkoslay - Ruta 20', 'Deportivo', 'Canchas', 6, 17000, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -86,7 +100,7 @@ CREATE TABLE `inquilinos` (
 --
 
 INSERT INTO `inquilinos` (`id`, `Dni`, `Nombre`, `mail`, `direccion`, `tel_inquilino`, `lugarTrabajo`, `nom_garante`, `dni_garante`, `tel_garante`) VALUES
-(3, 58457884, 'Marcial', 'marcial@mail.com', 'Nueva Galia', 482027, 'Kimberly', 'Juan Zalsedo', 7849837, 23344657),
+(3, 22457884, 'Marcial Jasinto', 'marcial@mail.com', 'Nueva Galia sur', 482027, 'Kimberly', 'Juan Zalsedo', 7849837, 23344657),
 (5, 123456, 'Mary Campos', 'mary@mail.com', 'Rios de los Sauces - Cba', 9735723, 'Jkoslay Inc.', 'Ana Roganovich', 44545453, 54532234),
 (7, 1928374, 'Agostina Argento', 'argento@mail.com', 'Albardon - SJ', 345632, 'Bodegas INCA', 'Clarisa Camargo', 9999292, 3453748),
 (8, 34783759, 'Alex Baldez', 'alex@gmail.com', '500 Sur', 38756838, 'Autonomo', 'Leo Baldez', 56456456, 456646456);
@@ -129,9 +143,31 @@ INSERT INTO `propietarios` (`id`, `Nombre`, `Dni`, `Direccion`, `tel`) VALUES
 (4, 'Romagnolli Antonella', 6644667, 'San Luis Cap', 334567),
 (5, 'Faustino Sosa', 65746574, 'Los Cocos', 256348),
 (6, 'Gustavo Bogado', 5181575, 'Cortaderas', 837463),
-(7, 'Marisa Zapata', 6474655, 'Los estribos 501', 26688999),
 (8, 'leonel baldez', 80956675, '500 Sur m171 c1', 9999999),
 (9, 'fulano mengano', 26736788, 'juana koslay', 4764487);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(10) NOT NULL,
+  `Nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `Apellido` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `Avatar` varchar(50) COLLATE utf8_spanish_ci NOT NULL DEFAULT '/img/default.jpg',
+  `Mail` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `Clave` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `Rol` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `Nombre`, `Apellido`, `Avatar`, `Mail`, `Clave`, `Rol`) VALUES
+(1, 'Admin', 'Admin', '/img/default.jpg', 'admin@admin.com', 'admin', 1);
 
 --
 -- Índices para tablas volcadas
@@ -162,6 +198,12 @@ ALTER TABLE `propietarios`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -169,13 +211,13 @@ ALTER TABLE `propietarios`
 -- AUTO_INCREMENT de la tabla `contrato`
 --
 ALTER TABLE `contrato`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `inmueble`
 --
 ALTER TABLE `inmueble`
-  MODIFY `id_Inmu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_Inmu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `inquilinos`
@@ -188,6 +230,12 @@ ALTER TABLE `inquilinos`
 --
 ALTER TABLE `propietarios`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

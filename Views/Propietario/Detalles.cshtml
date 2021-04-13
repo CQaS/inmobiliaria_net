@@ -5,6 +5,13 @@
     int id = Model.Id;
 }
 
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+else
+{
+
 <h1>Datalles del Propietario: @Model.Nombre</h1>
 <br><br>
 
@@ -59,3 +66,4 @@
     </table> 
     </div>
 </div>
+}

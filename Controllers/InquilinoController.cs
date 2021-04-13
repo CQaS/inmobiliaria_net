@@ -31,12 +31,6 @@ namespace AplicacionPrueba.Controllers
         }
 
         // GET: 
-        public IActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: 
         public IActionResult Alta()
         {
             return View();

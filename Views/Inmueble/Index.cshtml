@@ -5,6 +5,13 @@
     List<Inmueble> inmuebles = ViewData[nameof(Inmueble)] as List<Inmueble>;
 }
 
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
 <h1>Nuestros Inmuebles Actuales</h1>
 
 <table class="table">
@@ -44,3 +51,4 @@
 <p>
     <a asp-action="Alta" class="btn btn-primary">Crear Inmuebles</a>
 </p>
+ }

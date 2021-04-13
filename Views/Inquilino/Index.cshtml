@@ -5,6 +5,13 @@
     List<Inquilino> inquilinos = ViewData[nameof(Inquilino)] as List<Inquilino>;
 }
 
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
 <h1>Nuestros Inquilinos Actuales</h1>
 
 <table class="table">
@@ -56,3 +63,4 @@
 <p>
     <a asp-action="Alta" class="btn btn-primary">Crear Inquilinos</a>
 </p>
+ }

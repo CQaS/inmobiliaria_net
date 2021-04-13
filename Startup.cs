@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,20 @@ namespace AplicacionPrueba
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(options =>//el sitio web valida con cookie
+                {
+                    options.LoginPath = "/Usuario/Login";
+                    options.LogoutPath = "/Usuario/Logout";
+                    options.AccessDeniedPath = "/Home/Restringido";
+                });
+            services.AddAuthorization(options =>
+            {
+                //options.AddPolicy("Empleado", policy => policy.RequireClaim(ClaimTypes.Role, "Administrador", "Empleado"));
+                options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
+                options.AddPolicy("Empleado", policy => policy.RequireRole("Empleado"));
+            });
+
             services.AddControllersWithViews();
         }
 
@@ -43,7 +58,8 @@ namespace AplicacionPrueba
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            //habilitar Autenticacion
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -2,9 +2,17 @@
     ViewData["Title"] = "Bienvenido";
  }
 
-<div class="text-center">
+ <div class="text-center">
     <h1 class="display-4">Bienvenidos</h1>
 </div>
+
+ @if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
 <div class="col">
                 <div class="card">
                     <img src="https://mdbootstrap.com/img/new/standard/city/043.jpg" class="card-img-top" alt="..." />
@@ -15,3 +23,4 @@
                     </div>
                 </div>
 </div>
+ }

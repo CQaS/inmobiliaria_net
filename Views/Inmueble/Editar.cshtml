@@ -5,7 +5,19 @@
     int id = Model.Id_inmu;
 }
 
-<h1>Editar Inmuebles</h1>
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Editar el Inmueble del Sr/a: 
+                    @foreach (var item in (IList<Propietario>)ViewBag.Propietario)
+                        {
+                        if(item.Id == Model.id_propietario){ @Html.DisplayFor(modelItem => item.Nombre) }
+                    }
+</h1>
 
 <div class="container">
     <div>
@@ -45,3 +57,4 @@
         </form>
     </div>
 </div>
+ }

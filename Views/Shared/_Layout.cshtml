@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Inmobiliaria_net</title>
+    <title>@ViewData["Title"] - Inmobiliaria NET</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
@@ -12,8 +12,23 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-success border-bottom box-shadow mb-3">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <img src="/img/logo.png" width="180" height="53" data-toggle="collapse" data-target="#navbarNav" alt="" loading="lazy" style="position:relative; bottom:1px; margin-right:800px;">
+                </a>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <h6>Ingresa para ver el Menu!</h6>
+                    </li>
+                </ul>
+
+            }
+            else
+            {
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Inmobiliaria_net</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Inmobiliaria NET</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,18 +50,29 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Contrato" asp-action="Index">Contratos</a>
                         </li>
+                        <li class="nav-item dropdown" style="padding:10px;">
+
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @User.Identity.Name <i class="fas fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a asp-controller="Usuario" asp-action="Perfil" class="dropdown-item"> Perfil <i class="fas fa-user"></i></a>
+                            <a asp-controller="Usuario" asp-action="Logout" class="dropdown-item"> Salir <i class="fas fa-sign-out-alt"></i></a>
+                        </div>
+                    </li>
                     </ul>
                 </div>
             </div>
+            }
         </nav>
     </header>
 
     @if(!String.IsNullOrEmpty(ViewBag.Error))
 {
-<div class="alert alert-info aler-dismissible fade show" role="alert">
+<div class="alert alert-danger aler-dismissible fade show" role="alert">
     <strong>Informacion: </strong>@ViewBag.Error
     <button type="button" class="close" data-dismiss="alert" aria-label="cloce">
-        <span arial-hidden="true"><span class="lnr lnr-cross-circle"></span></span>
+        <span arial-hidden="true"><span class="fa fa-radiation-alt"></span></span>
     </button>
 </div>
 }

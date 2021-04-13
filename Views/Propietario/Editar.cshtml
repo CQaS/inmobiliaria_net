@@ -5,7 +5,14 @@
     int id = Model.Id;
 }
 
-<h1>Editar Propietarios</h1>
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+else
+{
+
+<h1>Editar el Propietario: @Model.Nombre</h1>
 
 <div class="container">
     <div>
@@ -31,3 +38,4 @@
         </form>
     </div>
 </div>
+}

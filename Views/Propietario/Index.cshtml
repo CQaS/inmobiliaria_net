@@ -5,6 +5,13 @@
     List<Propietario> propietarios = ViewData[nameof(Propietario)] as List<Propietario>;
 }
 
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+else
+{
+
 <h1>Nuestros Propietarios Actuales</h1>
 
 <table class="table" style="margin-bottom:45px">
@@ -44,3 +51,4 @@
 <p>
     <a asp-action="Alta" class="btn btn-primary">Crear Propietario</a>
 </p>
+}

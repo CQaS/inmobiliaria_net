@@ -5,7 +5,14 @@
     int id = Model.Id;
 }
 
-<h1>Editar Inquilinos</h1>
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Editar el Inquilino: @Model.Nombre</h1>
 
 <div class="container">
     <div>
@@ -51,3 +58,4 @@
         </form>
     </div>
 </div>
+ }

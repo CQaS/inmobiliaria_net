@@ -5,6 +5,13 @@
     int id = Model.Id_inmu;
 }
 
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
 <h1>Datalles del Inmueble: @Model.Direccion_in</h1>
 
 <div class="container">
@@ -16,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.Id_inmu)
             </th>
             <th>
-                Direccion
+                @Html.DisplayNameFor(model => model.Direccion_in)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.precio)
@@ -58,3 +65,4 @@
     </table> 
     </div>
 </div>
+ }

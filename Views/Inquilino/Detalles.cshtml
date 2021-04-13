@@ -5,7 +5,14 @@
     int id = Model.Id;
 }
 
-<h1>Datalles del Inquilinos: @Model.Nombre</h1>
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Datalles del Inquilino: @Model.Nombre</h1>
 
 <div class="container">
     <div>
@@ -64,3 +71,4 @@
     </table> 
     </div>
 </div>
+ }
