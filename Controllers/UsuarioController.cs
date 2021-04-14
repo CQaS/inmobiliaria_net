@@ -46,12 +46,13 @@ namespace AplicacionPrueba.Controllers
         public ActionResult Index()
         {
             var usuarios = repositorioUsuario.ObtenerTodos();
+            ViewData[nameof(Usuario)] = usuarios;
             ViewBag.Id = TempData["Id"];
             if (TempData.ContainsKey("Id"))
                 ViewBag.Id = TempData["Id"];
             if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];
-            return View(usuarios);
+            return View();
         }
 
         // GET: Usuario/Details/5
@@ -91,7 +92,7 @@ namespace AplicacionPrueba.Controllers
                     //var inqui = repositorioInquilino.ObtenerPorEmail(u.Email);
                     //var prop = repositorioPropietario.ObtenerPorEmail(u.Email);
 
-                    if (user == null)
+                    if (user == null )
                     {
 
                         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -101,11 +102,14 @@ namespace AplicacionPrueba.Controllers
                                 iterationCount: 1000,
                                 numBytesRequested: 256 / 8));
                         u.Clave = hashed;
+
                         u.Rol = User.IsInRole("Administrador") ? u.Rol : (int)enRoles.Empleado;
                         var nbreRnd = Guid.NewGuid();//posible nombre aleatorio
                         int res = repositorioUsuario.Alta(u);
-                        if(u.AvatarFile!=null && u.Id > 0)
+
+                        if(u.AvatarFile !=null  && res > 0)
                         {
+                            u.Id = res;
                             string wwwPath = environment.WebRootPath;
                             string path = Path.Combine(wwwPath, "img/avatars");
                             if(!Directory.Exists(path))
@@ -113,13 +117,14 @@ namespace AplicacionPrueba.Controllers
                                 Directory.CreateDirectory(path);
                             }
                             //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
-                            string fileName = "avatar_" + u.Id + Path.GetExtension(u.AvatarFile.FileName);
+                            string fileName = "avatar_" + u.Mail + Path.GetExtension(u.AvatarFile.FileName);
                             string pathCompleto = Path.Combine(path, fileName);
                             u.Avatar = Path.Combine("/img/avatars", fileName);
                             using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
                             {
                                 u.AvatarFile.CopyTo(stream);
                             }
+                            
                             repositorioUsuario.Modificacion(u);
                         }
                         TempData["Id"] = u.Id;
@@ -205,13 +210,13 @@ namespace AplicacionPrueba.Controllers
                 }
                 else
                 {
-                    repositorioUsuario.Modificacion(u);
+                    repositorioUsuario.Modifica(u);
                     TempData["Mensaje"] = "Datos guardados correctamente";
 
                 }
 
                 if (TempData.ContainsKey("Mensaje"))
-                    ViewBag.Mensaje = TempData["Mensaje"];
+                    ViewBag.Error = TempData["Mensaje"];
 
                 return RedirectToAction(nameof(Index));
 
@@ -227,34 +232,8 @@ namespace AplicacionPrueba.Controllers
         [Authorize(Policy = "Administrador")]
         public ActionResult Borrar(int id)
         {
-            var u = repositorioUsuario.ObtenerPorId(id);
-            if (TempData.ContainsKey("Mensaje"))
-                ViewBag.Mensaje = TempData["Mensaje"];
-            if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];
-            return View(u);
-        }
-
-        // POST: Usuario/Delete/5
-
-   
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Policy = "Administrador")]
-        public ActionResult Borrar(int id, Usuario entidad)
-        {
-            try
-            {
-                repositorioUsuario.Baja(id);
-                TempData["Mensaje"] = "Eliminación realizada correctamente";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = ex.Message;
-                ViewBag.StackTrate = ex.StackTrace;
-                return View(entidad);
-            }
+            repositorioUsuario.Baja(id);
+            return RedirectToAction(nameof(Index));
         }
 
 	    [AllowAnonymous]
@@ -272,7 +251,7 @@ namespace AplicacionPrueba.Controllers
         {
             try
             {
-                var returnUrl = String.IsNullOrEmpty(TempData["returnUrl"] as String)? "/Home" : TempData["returnUrl"].ToString();
+                //var returnUrl = String.IsNullOrEmpty(TempData["returnUrl"] as String) ? "/Home" : TempData["returnUrl"].ToString();
                 if (ModelState.IsValid)
                 {
                     string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -287,7 +266,7 @@ namespace AplicacionPrueba.Controllers
                     if (e == null)// || e.Clave != hashed
                     {
                         ModelState.AddModelError("", "El mail o la clave no son correctos");
-                        TempData["returnUrl"] = returnUrl;
+                        //TempData["returnUrl"] = returnUrl;
                         return View();
                     }
 
@@ -304,10 +283,10 @@ namespace AplicacionPrueba.Controllers
                     await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity));
-                        TempData.Remove("returnUrl");
-                    return RedirectToAction(returnUrl);
+                        //TempData.Remove("returnUrl");
+                    return RedirectToAction(nameof(Index), "Home");
                 }
-                TempData["returnUrl"] = returnUrl;
+                //TempData["returnUrl"] = returnUrl;
                 return View();
             }
             catch (Exception ex)

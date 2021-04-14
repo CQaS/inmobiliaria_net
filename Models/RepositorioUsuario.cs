@@ -60,7 +60,7 @@ namespace AplicacionPrueba.Models
 			int res = -1;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"DELETE FROM Usuarios WHERE Id = @id";
+				string sql = $"UPDATE Usuarios SET estado = 0 WHERE Id = @id";
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -78,8 +78,29 @@ namespace AplicacionPrueba.Models
 			int res = -1;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"UPDATE Usuarios SET Nombre=@nombre, Apellido=@apellido, Rol=@rol " +
-					$"WHERE Id = @id";
+				string sql = $"UPDATE Usuarios SET Nombre=@nombre, Apellido=@apellido, Avatar=@avatar, Rol=@rol WHERE Id = @id";
+				using (MySqlCommand command = new MySqlCommand(sql, connection))
+				{
+					command.CommandType = CommandType.Text;
+					command.Parameters.AddWithValue("@nombre", e.Nombre);
+					command.Parameters.AddWithValue("@apellido", e.Apellido);
+					command.Parameters.AddWithValue("@avatar", e.Avatar);
+					command.Parameters.AddWithValue("@rol", e.Rol);
+					command.Parameters.AddWithValue("@id", e.Id);
+					connection.Open();
+					res = command.ExecuteNonQuery();
+					connection.Close();
+				}
+			}
+			return res;
+		}
+
+		public int Modifica(Usuario e)
+		{
+			int res = -1;
+			using (MySqlConnection connection = new MySqlConnection(connectionString))
+			{
+				string sql = $"UPDATE Usuarios SET Nombre=@nombre, Apellido=@apellido, Rol=@rol WHERE Id = @id";
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -94,6 +115,7 @@ namespace AplicacionPrueba.Models
 			}
 			return res;
 		}
+
 		public int ModificarPass(Usuario e)
 		{
 			int res = -1;
@@ -116,10 +138,10 @@ namespace AplicacionPrueba.Models
 		}
 		public IList<Usuario> ObtenerTodos()
 		{
-			IList<Usuario> res = new List<Usuario>();
+			var res = new List<Usuario>();
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Avatar, Mail, Clave, Rol FROM Usuarios";
+				string sql = $"SELECT Id, Nombre, Apellido, Avatar, Mail, Clave, Rol FROM Usuarios WHERE estado = 1";
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -131,11 +153,11 @@ namespace AplicacionPrueba.Models
 						{
 							Id = reader.GetInt32(0),
 							Nombre = reader.GetString(1),
-							Apellido = reader.GetString(2),
-							Mail = reader.GetString(3),
-							Clave = reader.GetString(4),
-							Rol = reader.GetInt32(5),
-                            Avatar = reader["Avatar"].ToString(),
+							Apellido = reader.GetString(2),							
+                            Avatar = reader.GetString(3),
+							Mail = reader.GetString(4),
+							Clave = reader.GetString(5),
+							Rol = reader.GetInt32(6),
 						};
 						res.Add(e);
 					}
@@ -150,7 +172,7 @@ namespace AplicacionPrueba.Models
 			Usuario e = null;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Avatar, Mail, Clave, Rol FROM Usuarios WHERE Id=@id";
+				string sql = $"SELECT Id, Nombre, Apellido, Avatar, Mail, Clave, Rol FROM Usuarios WHERE Id=@id AND estado = 1";
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
@@ -163,11 +185,11 @@ namespace AplicacionPrueba.Models
 						{
 							Id = reader.GetInt32(0),
 							Nombre = reader.GetString(1),
-							Apellido = reader.GetString(2),
-							Mail = reader.GetString(3),
-							Clave = reader.GetString(4),
-							Rol = reader.GetInt32(5),
-                            Avatar = reader["Avatar"].ToString(),
+							Apellido = reader.GetString(2),							
+                            Avatar = reader.GetString(3),
+							Mail = reader.GetString(4),
+							Clave = reader.GetString(5),
+							Rol = reader.GetInt32(6),
 						};
 					}
 					connection.Close();
@@ -195,10 +217,10 @@ namespace AplicacionPrueba.Models
 							Id = reader.GetInt32(0),
 							Nombre = reader.GetString(1),
 							Apellido = reader.GetString(2),
-							Mail = reader.GetString(3),
-							Clave = reader.GetString(4),
-							Rol = reader.GetInt32(5),
-							Avatar = reader["Avatar"].ToString(),
+							Avatar = reader.GetString(3),
+							Mail = reader.GetString(4),
+							Clave = reader.GetString(5),
+							Rol = reader.GetInt32(6),
 						};
 					}
 					connection.Close();

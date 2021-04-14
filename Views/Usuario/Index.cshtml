@@ -1,8 +1,8 @@
-﻿@model IEnumerable<AplicacionPrueba.Models.Contrato>
+﻿@model IEnumerable<AplicacionPrueba.Models.Usuario>
 
 @{
-    ViewData["Title"] = "Index Contratos";
-    List<Contrato> contratos = ViewData[nameof(Contrato)] as List<Contrato>;
+    ViewData["Title"] = "Usuarios";
+    List<Usuario> usuario = ViewData[nameof(Usuario)] as List<Usuario>;
 }
 
 @if(!User.Identity.IsAuthenticated)
@@ -12,51 +12,59 @@
 else
 {
 
-<h1>Nuestros Contratos Actuales</h1>
+<h1>Usuarios Actuales</h1>
 
 <table class="table">
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.fe_ini)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fe_fin)
+                @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Inquilino.Nombre)
+                @Html.DisplayNameFor(model => model.Apellido)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Inmueble.Direccion_in)
+                @Html.DisplayNameFor(model => model.Mail)
             </th>
-
+            <th>
+                @Html.DisplayNameFor(model => model.Avatar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rol)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in contratos)
+        @foreach (var item in usuario)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.fe_ini, "{0:dd/MM/yyyy}")
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.fe_fin, "{0:dd/MM/yyyy}")
+                    @Html.DisplayFor(modelItem => item.Nombre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Inquilino.Nombre)
+                    @Html.DisplayFor(modelItem => item.Apellido)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Inmueble.Direccion_in)
+                    @Html.DisplayFor(modelItem => item.Mail)
                 </td>
-
+                <td>
+                    <img width="32" src="@item.Avatar" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rol)
+                </td>
                 <td>
                 <i class="fa fa-edit"></i>
                 @Html.ActionLink("Editar", "Editar", new { id=item.Id}) |
-                <i class="fa fa-info-circle"></i>
-                @Html.ActionLink("Detalles", "Detalles", new { id=item.Id}) |
                 <i class="fa fa-trash"></i>
-                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Borrar el Contrato de: " + @item.Inquilino.Nombre + "?')" })
+                @Html.ActionLink("Eliminar", "Borrar", new { id=item.Id}, new { onclick = "return confirm('Borrar el Usuario: " + @item.Apellido + "?')" })
             </td>
             </tr>
         }
@@ -64,6 +72,6 @@ else
 </table>
 
 <p>
-    <a asp-action="Alta" class="btn btn-primary">Crear Contratos</a>
+    <a asp-action="Alta" class="btn btn-primary">Crear Usuario<i class="fas fa-square"></i></a>
 </p>
 }

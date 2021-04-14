@@ -38,11 +38,13 @@ else
                 <input asp-for="Clave" class="form-control" type="password" />
                 <span asp-validation-for="Clave" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="AvatarFile" class="control-label"></label>
-                <input type="file" name="Avatar" />
-                <span asp-validation-for="Avatar" class="text-danger"></span>
+                <input type="file" name="AvatarFile" />
+                <span asp-validation-for="AvatarFile" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
                 <label class="control-label">Rol</label>
                 <select class="form-control" name="Rol">

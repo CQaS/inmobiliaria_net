@@ -24,7 +24,6 @@ namespace AplicacionPrueba.Models
 		public string Nombre { get; set; }
 		[Required]
 		public string Apellido { get; set; }
-        [Required]
         public string Avatar { get; set; }
         public IFormFile AvatarFile{ get; set; }
 		[Required, DataType(DataType.EmailAddress)]

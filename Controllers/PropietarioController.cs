@@ -25,7 +25,6 @@ namespace AplicacionPrueba.Controllers
         {
             var lta = repositorioPropietario.obtener();
             ViewData[nameof(Propietario)] = lta;
-            ViewBag.Persona = lta;
             return View();
         }
 
