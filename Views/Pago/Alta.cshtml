@@ -1,0 +1,49 @@
+﻿@model AplicacionPrueba.Models.Contrato
+
+@{
+    ViewData["Title"] = "Altas";
+    List<Contrato> contratos = ViewData[nameof(Contrato)] as List<Contrato>;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Abonar un Contrato</h1>
+
+<div class="container">
+    <div>
+        <form method="post" asp-action="Alta">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div class="form-group">
+                <label for="Num_Pago" class="control-label">Nro. Pago</label>
+                <input type="text" class="form-control" id="Num_Pago" name="Num_Pago">
+            </div>
+            <div class="form-group">
+                <label for="Fecha" class="control-label">Fecha</label>
+                <input type="date" class="form-control" id="Fecha" name="Fecha">
+            </div>
+            <div class="form-group">
+                <label for="Importe" class="control-label">Importe</label>
+                <input type="text" class="form-control" id="Importe" name="Importe">
+            </div>
+            <div>
+                <label for="id_propietario" class="control-label">Elige un Contratos para Abonar</label>
+                <select class="form-control" name="ContratoId">
+                    @foreach (var item in contratos) {
+
+                        <option value="@item.Id">@(item.Id)</option>                        
+                    }
+
+                </select>
+            </div>
+            <br>
+            <input type="submit" value="Confirmar" class="btn btn-primary" />
+            <a asp-action="index" asp-controller="Contrato" asp-route-id="@ViewBag.ContId" title="Contrato" class="btn btn-secondary">Volver</a>
+        </form>
+    </div>
+</div>
+ }

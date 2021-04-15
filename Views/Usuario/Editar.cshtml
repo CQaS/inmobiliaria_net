@@ -10,13 +10,35 @@
  }
 else
 {
+<style>
+    .image img {
+  width: 220px;
+  height: auto;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.my-form {
+  padding: 2.5rem;
+}
+</style>
 
-<h1>Editar</h1>
+<center><h1>Editar Perfil</h1></center>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Editar">
+<div class="row d-flex justify-content-center align-items-center">
+    <div class="col-md-7">
+        <div class="form d-flex justify-content-between">
+            <div class="image">
+                @if (Model.Avatar != "")
+                {
+                    <img src="@Model.Avatar" height="70" width="70" style="border-radius: 40px; margin: 20px 0 0 10px;border: 2px solid #fff;"/> 
+                }
+                else
+                {
+                    <p>Sin avatar</p>
+                }
+            </div>
+        <form asp-action="Editar" class="my-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
@@ -47,23 +69,12 @@ else
                 <span asp-validation-for="Rol" class="text-danger"></span>
             </div>
             }
-
-            <div class="form-group">
-                <label asp-for="Avatar" class="control-label"></label><br>
-                @if (Model.Avatar != "")
-                {
-                    <img src="@Model.Avatar" height="70" width="70" style="border-radius: 40px; margin: 20px 0 0 10px;border: 2px solid #fff;"/> 
-                }
-                else
-                {
-                    <p>Sin avatar</p>
-                }
-            </div>
-
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-dark" />
             </div>
         </form>
+        </div>
     </div>
 </div>
 }
+

@@ -1,0 +1,39 @@
+﻿@model AplicacionPrueba.Models.Pago
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Editar Pagos</h1>
+
+<div class="container">
+    <div>
+        <form method="post" asp-action="Editar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label for="Num_Pago" class="control-label">Nro. Pago</label>
+                <input type="text" class="form-control" id="Num_Pago" name="Num_Pago" value="@Model.Num_Pago">
+            </div>
+            <div class="form-group">
+                <label for="Fecha" class="control-label">Fecha</label>
+                <input type="date" class="form-control" id="Fecha" name="Fecha" value="@Model.Fecha">
+            </div>
+            <div class="form-group">
+                <label for="Importe" class="control-label">Monto</label>
+                <input type="text" class="form-control" id="importe" name="importe" value="@Model.Importe">
+            </div>
+            <br>
+            <input type="submit" value="Confirmar" class="btn btn-primary" />
+            <a asp-action="PorContrato" asp-controller="Pago" asp-route-id="@Model.Num_Pago" title="Pago" class="btn btn-secondary">Volver</a>
+        </form>
+    </div>
+</div>
+ }

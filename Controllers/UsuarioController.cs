@@ -263,7 +263,7 @@ namespace AplicacionPrueba.Controllers
 
                     var e = repositorioUsuario.ObtenerPorEmail(login.Usuario);
                     
-                    if (e == null)// || e.Clave != hashed
+                    if (e == null || e.Clave != hashed)
                     {
                         ModelState.AddModelError("", "El mail o la clave no son correctos");
                         //TempData["returnUrl"] = returnUrl;
