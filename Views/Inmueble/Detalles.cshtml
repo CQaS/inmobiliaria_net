@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Detalles de Inmueble";
-    int id = Model.Id_inmu;
 }
 
 @if(!User.Identity.IsAuthenticated)
@@ -12,10 +11,33 @@
  else
  {
 
+<style>
+  .image img {
+  width: 220px;
+  height: auto;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.my-form {
+  padding: 2.5rem;
+}
+</style>
+
 <h1>Datalles del Inmueble: @Model.Direccion_in</h1>
 
 <div class="container">
-    <div>
+    <div class="col-md-7">
+        <div class="form d-flex justify-content-between">
+            <div class="image">
+                @if (Model.foto != "")
+                {
+                    <img src="@Model.foto" height="100" width="100" style="border-radius: 40px; margin: 20px 0 0 10px;border: 2px solid #fff;"/> 
+                }
+                else
+                {
+                    <p>Sin Foto</p>
+                }
+            </div>
        <table class="table">
     <thead>
         <tr>
@@ -34,6 +56,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Uso)
             </th>          
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -56,13 +79,16 @@
             </td>
             <td>
                 <i class="fa fa-edit"></i>
-                @Html.ActionLink("Editar", "Editar", new { id=Model.Id_inmu}) |
+                @Html.ActionLink("Editar", "Editar", new { id=Model.Id_inmu})                
+            </td>
+            <td>
                 <i class="fa fa-trash"></i>
                 @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id_inmu})
             </td>
         </tr>
     </tbody>
     </table> 
+    </div>
     </div>
 </div>
  }

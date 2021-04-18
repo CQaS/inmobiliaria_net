@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +23,9 @@ namespace AplicacionPrueba.Models
         public int ambientes { get; set; }
         [Required]
         public int precio { get; set; }
+        public String foto { get; set; }
+        [Display(Name = "Elige una Foto:")]
+        public IFormFile FotoFile{ get; set; }
         [Display(Name = "Dueño")]
         public int id_propietario { get; set; }
         [ForeignKey(nameof(Inmueble.id_propietario))]

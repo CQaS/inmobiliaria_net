@@ -14,9 +14,11 @@ namespace AplicacionPrueba.Controllers
     {
         private readonly ILogger<PropietarioController> _logger;
         private readonly RepositorioPropietario repositorioPropietario;
+        private readonly RepositorioInmueble repoInmu;
         public PropietarioController(ILogger<PropietarioController> logger)
         {
             repositorioPropietario = new RepositorioPropietario();
+            repoInmu = new RepositorioInmueble();
             _logger = logger;
         }
 
@@ -81,6 +83,8 @@ namespace AplicacionPrueba.Controllers
 
         public IActionResult Detalles(int id)
         { 
+            var lta = repoInmu.obtenerPorPropietario(id);
+            ViewData[nameof(Inmueble)] = lta;
             Propietario p = repositorioPropietario.Buscar(id);            
             return View(p);
         }

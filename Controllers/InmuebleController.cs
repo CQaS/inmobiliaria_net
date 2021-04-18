@@ -2,11 +2,20 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using System.Security.Claims;
 
 namespace AplicacionPrueba.Controllers
 {
@@ -16,9 +25,11 @@ namespace AplicacionPrueba.Controllers
 
         private readonly RepositorioInmueble repositorioInmueble;
         private readonly RepositorioPropietario repositorioPropietario;
+        private readonly IWebHostEnvironment environment;
 
-        public InmuebleController(ILogger<InmuebleController> logger)
+        public InmuebleController(ILogger<InmuebleController> logger, IWebHostEnvironment environment)
         {
+            this.environment = environment;
             repositorioInmueble = new RepositorioInmueble();
             repositorioPropietario = new RepositorioPropietario();
             _logger = logger;
@@ -49,15 +60,33 @@ namespace AplicacionPrueba.Controllers
             {
                 if(ModelState.IsValid)
                 {
-                    RepositorioInmueble alta = new RepositorioInmueble();
-                    alta.Alta(i);
+                    if(i.FotoFile !=null)
+                        {
+                            string wwwPath = environment.WebRootPath;
+                            string path = Path.Combine(wwwPath, "img/fotos"+i.id_propietario);
+                            if(!Directory.Exists(path))
+                            {
+                                Directory.CreateDirectory(path);
+                            }
+                            string fileName = "Inmueble_" + i.id_propietario + Path.GetExtension(i.FotoFile.FileName);
+                            string pathCompleto = Path.Combine("img/fotos"+i.id_propietario, fileName);
+                            i.foto = Path.Combine(path, fileName);
+                            using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                            {
+                                i.FotoFile.CopyTo(stream);
+                            }
+
+                            repositorioInmueble.Alta(i);                           
+                             
+                        }
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                    ViewBag.Error = "Algo fallo en el Alta del Inmueble, intenta nuevamente!";
                     var lta = repositorioPropietario.obtener();
                     ViewData[nameof(Propietario)] = lta;
-                    return View(i);
+                    return View();
                 }
             }
             catch (Exception ex)

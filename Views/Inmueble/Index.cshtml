@@ -22,6 +22,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.precio)
+            </th> 
+            <th>
+                Propietario del Inmueble
             </th>         
             <th></th>
         </tr>
@@ -34,6 +37,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duenio.Nombre)
             </td>
             <td>
                 <i class="fa fa-edit"></i>

@@ -53,12 +53,44 @@ namespace AplicacionPrueba.Models
             return res;
         }
 
+        public List<Inmueble> obtenerPorPropietario(int id)
+        {
+            var res = new List<Inmueble>();
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                string sql = $"SELECT {nameof(Inmueble.Id_inmu)}, {nameof(Inmueble.Direccion_in)}, {nameof(Inmueble.Uso)}, {nameof(Inmueble.Tipo)}, {nameof(Inmueble.ambientes)}, {nameof(Inmueble.precio)}, {nameof(Inmueble.foto)} FROM inmueble WHERE id_propietario = @id AND estado = 1";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var e = new Inmueble
+                        {
+                            Id_inmu = reader.GetInt32(0),
+                            Direccion_in = reader.GetString(1),
+                            Uso = reader.GetString(2),
+                            Tipo = reader.GetString(3),
+                            ambientes = reader.GetInt32(4),
+                            precio = reader.GetInt32(5),
+                            foto = reader.GetString(6),
+                        };
+                        res.Add(e);
+                    }
+                    connection.Close();
+                }
+
+            }
+            return res;
+        }
+
         public Inmueble Buscar(int id)
         {
             Inmueble Inm;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT {nameof(Inmueble.Id_inmu)}, {nameof(Inmueble.Direccion_in)}, {nameof(Inmueble.Uso)}, {nameof(Inmueble.Tipo)}, {nameof(Inmueble.ambientes)}, {nameof(Inmueble.precio)}, {nameof(Inmueble.id_propietario)} FROM inmueble where id_inmu=@idIn AND estado = 1";
+                string sql = $"SELECT {nameof(Inmueble.Id_inmu)}, {nameof(Inmueble.Direccion_in)}, {nameof(Inmueble.Uso)}, {nameof(Inmueble.Tipo)}, {nameof(Inmueble.ambientes)}, {nameof(Inmueble.precio)}, {nameof(Inmueble.id_propietario)}, {nameof(Inmueble.foto)} FROM inmueble where id_inmu=@idIn AND estado = 1";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@idIn", MySqlDbType.Int32).Value = id;
@@ -74,6 +106,7 @@ namespace AplicacionPrueba.Models
                         Inm.ambientes = int.Parse(res["ambientes"].ToString());;
                         Inm.precio = int.Parse(res["precio"].ToString());
                         Inm.id_propietario = int.Parse(res["id_propietario"].ToString());
+                        Inm.foto = res["foto"].ToString();
                     }
                     connection.Close();                                       
                 }
@@ -87,23 +120,24 @@ namespace AplicacionPrueba.Models
             var res = -1;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"INSERT INTO inmueble (direccion_in, uso, tipo, ambientes, precio, id_propietario) VALUES (@direccion_in, @uso, @tipo, @ambientes, @precio, @id_propietario)";
+                string sql = $"INSERT INTO inmueble (direccion_in, uso, tipo, ambientes, precio, id_propietario, foto) VALUES (@direccion_in, @uso, @tipo, @ambientes, @precio, @id_propietario, @foto)";
                 
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.CommandType = System.Data.CommandType.Text;
-					command.Parameters.AddWithValue("@direccion_in", e.Direccion_in);
+		            command.Parameters.AddWithValue("@direccion_in", e.Direccion_in);
                     command.Parameters.AddWithValue("@uso", e.Uso);
                     command.Parameters.AddWithValue("@tipo", e.Tipo);
                     command.Parameters.AddWithValue("@ambientes", e.ambientes);
                     command.Parameters.AddWithValue("@precio", e.precio);
                     command.Parameters.AddWithValue("@id_propietario", e.id_propietario);
+                    command.Parameters.AddWithValue("@foto", e.foto);
                     connection.Open();
                     command.ExecuteScalar();
                     connection.Close();
-                }                
-                string sql_ID = $"SELECT MAX(id_inmu) AS id_in FROM inmueble";
-                
+                }
+
+                string sql_ID = $"SELECT MAX(id_inmu) AS id_in FROM inmueble";                
                 using (var command = new MySqlCommand(sql_ID, connection))
                 {
                     connection.Open();

@@ -283,7 +283,7 @@ namespace AplicacionPrueba.Controllers
                     await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity));
-                        //TempData.Remove("returnUrl");
+                        
                     return RedirectToAction(nameof(Index), "Home");
                 }
                 //TempData["returnUrl"] = returnUrl;

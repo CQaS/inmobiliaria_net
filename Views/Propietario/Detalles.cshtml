@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Detalles de Propietario";
-    int id = Model.Id;
+    List<Inmueble> inmuebles = ViewData[nameof(Inmueble)] as List<Inmueble>;
 }
 
 @if(!User.Identity.IsAuthenticated)
@@ -63,7 +63,42 @@ else
             </td>
         </tr>
     </tbody>
-    </table> 
+    </table>
+
+<h1>Inmuebles del Propietario</h1>
+
+<table class="table" style="margin-bottom:45px">
+    <thead class="thead-dark">
+        <tr align="center">
+            <th>
+                Direccion
+            </th>
+            <th>
+                Fotos
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in inmuebles) {
+        <tr align="center">
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion_in)
+            </td>
+            <td>
+                @if (item.foto != "")
+                {
+                    <img src="@item.foto" height="100" width="100" style="border-radius: 40px; margin: 20px 0 0 10px;border: 2px solid #fff;"/> 
+                }
+                else
+                {
+                    <p>Sin Foto</p>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+     
     </div>
 </div>
 }
