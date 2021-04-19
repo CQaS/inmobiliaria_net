@@ -21,7 +21,7 @@ namespace AplicacionPrueba.Models
             var res = new List<Pago>();
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT p.Id, p.num_pago, p.Fecha , p.Importe, p.ContratoId, c.id_inquilino , c.id_inmueble FROM Pagos p INNER JOIN Contrato c ON p.id = c.Id WHERE p.estado = 1";
+                string sql = $"SELECT p.Id, p.num_pago, p.Fecha , p.Importe, p.ContratoId, c.id_inquilino , c.id_inmueble FROM Pagos p INNER JOIN Contrato c ON p.ContratoId = c.Id WHERE p.estado = 1";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     connection.Open();

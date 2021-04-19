@@ -30,5 +30,9 @@ namespace AplicacionPrueba.Models
         public int id_propietario { get; set; }
         [ForeignKey(nameof(Inmueble.id_propietario))]
         public Propietario Duenio { get; set; }
+        
+        public Inquilino inquilino { get; set; }
+        public Contrato contrato { get; set; }
+        public Inmueble inmueble { get; set; }
     }
 }

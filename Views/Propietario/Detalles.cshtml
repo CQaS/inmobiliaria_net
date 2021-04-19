@@ -79,6 +79,7 @@ else
         </tr>
     </thead>
     <tbody>
+@if(inmuebles == null){<tr><td>Sin Propiedates ingresadas</td><td>Sin Propiedates ingresadas</td></tr>}
 @foreach (var item in inmuebles) {
         <tr align="center">
             <td>
@@ -99,6 +100,9 @@ else
     </tbody>
 </table>
      
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
     </div>
 </div>
 }

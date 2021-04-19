@@ -60,10 +60,15 @@
                 @ViewBag.Inmueble.Direccion_in
             </td>
             <td>
+                <i class="fa fa-history"></i>
+                @Html.ActionLink("Ver pagos", "PorContrato", "Pago", new { id=Model.Id}) |
                 <i class="fa fa-edit"></i>
                 @Html.ActionLink("Editar", "Editar", new { id=Model.Id}) |
+                @if(ViewContext.HttpContext.User.IsInRole("Administrador"))
+                {
                 <i class="fa fa-trash"></i>
                 @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id}, new { onclick = "return confirm('Borrar el Contrato de Nro: " + @Model.Id + "?')" })
+                }
             </td>
         </tr>
     </tbody>

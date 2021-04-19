@@ -12,7 +12,7 @@
  else
  {
 
-<h1>Nuestros Contratos Actuales</h1>
+<h1>Nuestros Contratos Vigentes</h1>
 
 <table class="table">
     <thead class="thead-dark">
@@ -51,6 +51,8 @@
                 </td>
 
                 <td>
+                <i class="fa fa-history"></i>
+                @Html.ActionLink("Ver pagos", "PorContrato", "Pago", new { id=item.Id}) |
                 <i class="fa fa-edit"></i>
                 @Html.ActionLink("Editar", "Editar", new { id=item.Id}) |
                 <i class="fa fa-info-circle"></i>

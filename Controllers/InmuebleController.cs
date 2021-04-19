@@ -25,6 +25,7 @@ namespace AplicacionPrueba.Controllers
 
         private readonly RepositorioInmueble repositorioInmueble;
         private readonly RepositorioPropietario repositorioPropietario;
+        private readonly RepositorioContrato repoContrato;
         private readonly IWebHostEnvironment environment;
 
         public InmuebleController(ILogger<InmuebleController> logger, IWebHostEnvironment environment)
@@ -32,6 +33,7 @@ namespace AplicacionPrueba.Controllers
             this.environment = environment;
             repositorioInmueble = new RepositorioInmueble();
             repositorioPropietario = new RepositorioPropietario();
+            repoContrato = new RepositorioContrato();
             _logger = logger;
         }
 
@@ -130,6 +132,13 @@ namespace AplicacionPrueba.Controllers
         {
             Inmueble i = repositorioInmueble.Buscar(id); 
             return View(i);
+        }
+
+        public IActionResult VerContratos(int id)
+        {
+            var lta = repoContrato.VerContratosXInmueble(id);
+            ViewData[nameof(Contrato)] = lta; 
+            return View();
         }
 
         // 

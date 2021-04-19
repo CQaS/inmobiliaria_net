@@ -46,6 +46,8 @@
                 @Html.ActionLink("Editar", "Editar", new { id=item.Id_inmu}) |
                 <i class="fa fa-info-circle"></i>
                 @Html.ActionLink("Detalles", "Detalles", new { id=item.Id_inmu}) |
+                <i class="fa fa-book"></i>
+                @Html.ActionLink("VerContratos", "VerContratos", new { id=item.Id_inmu}) |
                 <i class="fa fa-trash"></i>
                 @Html.ActionLink("Eliminar", "Delete", new { id=item.Id_inmu}, new { onclick = "return confirm('Borrar el Inmueble de: " + @item.Duenio.Nombre + "?')" })
             </td>

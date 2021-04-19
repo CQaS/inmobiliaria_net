@@ -108,9 +108,9 @@ namespace AplicacionPrueba.Controllers
         public IActionResult Detalles(int id)
         {
             Contrato i = repositorioContrato.Buscar(id);
-            var lta = repositorioInmueble.Buscar(id);
+            var lta = repositorioInmueble.Buscar(i.id_inmueble);
             ViewData[nameof(Inmueble)] = lta;
-            var lta2 = repositorioInquilino.Buscar(id);
+            var lta2 = repositorioInquilino.Buscar(i.id_inquilino);
             ViewData[nameof(Inquilino)] = lta2; 
             return View(i);
         }

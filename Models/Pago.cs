@@ -20,8 +20,8 @@ namespace AplicacionPrueba.Models
         public DateTime Fecha { get; set; }
         [Required]
         public decimal Importe { get; set; }
-
-        [Display(Name = "Contrato")]
+        
+        [Display(Name = "Contrato Nro.")]
         public int ContratoId { get; set; }
         [ForeignKey("ContratoId")]
         public Contrato Contrato { get; set; }

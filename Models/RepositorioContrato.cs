@@ -21,7 +21,7 @@ namespace AplicacionPrueba.Models
             var res = new List<Contrato>();
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT c.id, c.fe_ini, c.fe_fin, inq.Nombre, inm.direccion_in FROM Contrato c INNER JOIN Inmueble inm ON c.id_inmueble = inm.id_Inmu INNER JOIN Inquilinos inq ON c.id_inquilino = inq.id WHERE c.estado = 1";
+                string sql = $"SELECT c.Id, c.fe_ini, c.fe_fin, c.id_inquilino, i.Nombre, c.id_inmueble, e.direccion_in, e.id_propietario FROM Contrato c INNER JOIN Inquilinos i ON i.id = c.id_inquilino INNER JOIN Inmueble e ON e.id_Inmu = c.id_inmueble WHERE fe_fin >= Curdate() AND c.estado = 1";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -35,11 +35,11 @@ namespace AplicacionPrueba.Models
                             fe_fin = reader.GetDateTime(2),
                             Inquilino = new Inquilino
                             {
-                                Nombre = reader.GetString(3),
+                                Nombre = reader.GetString(4),
                             },
                             Inmueble = new Inmueble
                             {
-                                Direccion_in = reader.GetString(4)
+                                Direccion_in = reader.GetString(6)
                             }
                         };
                         res.Add(e);
@@ -51,12 +51,47 @@ namespace AplicacionPrueba.Models
             return res;
         }
 
+        public List<Contrato> VerContratosXInmueble(int id)
+        {
+            var res = new List<Contrato>();
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                string sql = $"SELECT c.id, c.fe_ini, c.fe_fin, c.id_inquilino, i.Nombre, c.id_inmueble, e.direccion_in, e.id_propietario FROM Contrato c INNER JOIN Inquilinos i ON i.id = c.id_inquilino INNER JOIN Inmueble e ON e.id_Inmu = c.id_inmueble WHERE c.id_inmueble = @id_inmueble";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.Add("@id_inmueble", MySqlDbType.Int32).Value = id;
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var e = new Contrato
+                        {
+                            Id = reader.GetInt32(0),
+                            fe_ini = reader.GetDateTime(1),
+                            fe_fin = reader.GetDateTime(2),
+                            Inquilino = new Inquilino
+                            {
+                                Nombre = reader.GetString(4),
+                            },
+                            Inmueble = new Inmueble
+                            {
+                                Direccion_in = reader.GetString(6)
+                            }
+                        };
+                        res.Add(e);
+                    }
+                    connection.Close();                                       
+                }
+            }
+            return res;
+        }
+
         public Contrato Buscar(int id)
         {
             Contrato con;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT c.id, c.fe_ini, c.fe_fin, c.monto, inq.Nombre, inm.direccion_in FROM Contrato c INNER JOIN Inmueble inm ON c.id_inmueble = inm.id_Inmu INNER JOIN Inquilinos inq ON c.id_inquilino = inq.id WHERE c.id = @id AND c.estado = 1";
+                string sql = $"SELECT c.id, c.fe_ini, c.fe_fin, c.monto, inq.Nombre, inm.direccion_in, c.id_inmueble, c.id_inquilino FROM Contrato c INNER JOIN Inmueble inm ON c.id_inmueble = inm.id_Inmu INNER JOIN Inquilinos inq ON c.id_inquilino = inq.id WHERE c.id = @id AND c.estado = 1";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
@@ -69,6 +104,8 @@ namespace AplicacionPrueba.Models
                         con.fe_ini = DateTime.Parse(res["fe_ini"].ToString());
                         con.fe_fin = DateTime.Parse(res["fe_fin"].ToString());
                         con.monto = int.Parse(res["monto"].ToString());
+                        con.id_inmueble = int.Parse(res["id_inmueble"].ToString());
+                        con.id_inquilino = int.Parse(res["id_inquilino"].ToString());
                     }
                     connection.Close();                                       
                 }

@@ -12,7 +12,7 @@
  else
  {
 
-<h1>Nuestros Pagos Actuales</h1>
+<h1>Pagos de todos los Inmuebles.</h1>
 
 <table class="table">
     <thead class="thead-dark">
@@ -28,6 +28,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Importe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContratoId)
             </th>
 
             <th></th>
@@ -49,12 +52,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Importe)
                 </td>
-
+                <td>
+                    <i class="fa fa-history"></i>
+                    @Html.ActionLink("Historial de Pagos del Contrato", "PorContrato", new { id=item.ContratoId}) Nro:  
+                    @Html.DisplayFor(modelItem => item.ContratoId)
+                </td>
                 <td>
                 <i class="fa fa-edit"></i>
-                @Html.ActionLink("Editar", "Editar", new { id=item.Id}) | 
-                <i class="fa fa-history"></i>
-                @Html.ActionLink("Historial", "PorContrato", new { id=item.ContratoId}) |
+                @Html.ActionLink("Editar", "Editar", new { id=item.Id}) |
                 @if(ViewContext.HttpContext.User.IsInRole("Administrador"))
                 {
                 <i class="fa fa-trash"></i>
