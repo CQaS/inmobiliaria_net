@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
  
 namespace AplicacionPrueba.Models
 {
-    public class RepositorioPago
+    public class RepositorioPago: RepositorioBase
     {
-        private readonly string connectionString;
 
-        public RepositorioPago()
+        public RepositorioPago(IConfiguration configuration): base(configuration)
         {
-            connectionString = "Server=localhost;Database=inmobiliaria_net;Uid=root;Pwd=";
+
         }
         
         public List<Pago> obtener()

@@ -83,7 +83,9 @@ else
 @foreach (var item in inmuebles) {
         <tr align="center">
             <td>
+                <h2>
                 @Html.DisplayFor(modelItem => item.Direccion_in)
+                </h2>
             </td>
             <td>
                 @if (item.foto != "")

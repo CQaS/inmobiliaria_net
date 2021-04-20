@@ -33,6 +33,8 @@ namespace AplicacionPrueba.Models
 		public string Mail { get; set; }
 		[Required, DataType(DataType.Password)]
 		public string Clave { get; set; }
+
+		public string Pregunta { get; set; }
 		public int Rol { get; set; }
 
 		[NotMapped]

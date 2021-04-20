@@ -1,6 +1,8 @@
 ﻿using AplicacionPrueba.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,13 +18,14 @@ namespace AplicacionPrueba.Controllers
 
         private readonly RepositorioInquilino repositorioInquilino;
 
-        public InquilinoController(ILogger<InquilinoController> logger)
+        public InquilinoController(ILogger<InquilinoController> logger, IConfiguration config)
         {
-            repositorioInquilino = new RepositorioInquilino();
+            this.repositorioInquilino = new RepositorioInquilino(config);
             _logger = logger;
         }
 
-        // GET: 
+        // GET:
+        [Authorize] 
         public IActionResult Index()
         {
             var lta = repositorioInquilino.obtener();
@@ -31,6 +34,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // GET: 
+        [Authorize]
         public IActionResult Alta()
         {
             return View();
@@ -39,12 +43,12 @@ namespace AplicacionPrueba.Controllers
         // POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Alta(Inquilino i)
         {
             try
             {
-            RepositorioInquilino alta = new RepositorioInquilino();
-            alta.Alta(i);
+            repositorioInquilino.Alta(i);
             return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -56,6 +60,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // GET
+        [Authorize]
         public IActionResult Editar(int id)
         {
             Inquilino i = repositorioInquilino.Buscar(id); 
@@ -66,12 +71,12 @@ namespace AplicacionPrueba.Controllers
         // 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Editar(Inquilino i)
         {
             try
             {
-            RepositorioInquilino riEdit = new RepositorioInquilino();
-            riEdit.Editar(i);
+            repositorioInquilino.Editar(i);
             return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -82,6 +87,7 @@ namespace AplicacionPrueba.Controllers
             }
         }
 
+        [Authorize]
         public IActionResult Detalles(int id)
         {
             Inquilino i = repositorioInquilino.Buscar(id); 
@@ -89,6 +95,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // 
+        [Authorize(Policy = "Administrador")]
         public IActionResult Delete(int id)
         {
             repositorioInquilino.Borrar(id);

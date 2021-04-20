@@ -4,18 +4,17 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
  
 namespace AplicacionPrueba.Models
 {
-    public class RepositorioUsuario
-    {
-        private readonly string connectionString;
+    public class RepositorioUsuario : RepositorioBase
+	{
+		public RepositorioUsuario(IConfiguration configuration) : base(configuration)
+		{
 
-        public RepositorioUsuario()
-        {
-            connectionString = "Server=localhost;Database=inmobiliaria_net;Uid=root;Pwd=";
-        }
+		}
 
         public int Alta(Usuario e)
 		{
@@ -23,7 +22,7 @@ namespace AplicacionPrueba.Models
 			int res = -1;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"INSERT INTO Usuarios (Nombre, Apellido, Avatar, Mail, Clave, Rol) VALUES (@nombre, @apellido, @avatar, @mail, @clave, @rol)";
+				string sql = $"INSERT INTO Usuarios (Nombre, Apellido, Avatar, Mail, Clave, Pregunta, Rol) VALUES (@nombre, @apellido, @avatar, @mail, @clave, @pregunta, @rol)";
 
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
@@ -36,6 +35,7 @@ namespace AplicacionPrueba.Models
                     	command.Parameters.AddWithValue("@avatar", e.Avatar);
 					command.Parameters.AddWithValue("@mail", e.Mail);
 					command.Parameters.AddWithValue("@clave", e.Clave);
+					command.Parameters.AddWithValue("@pregunta", e.Pregunta);
 					command.Parameters.AddWithValue("@rol", e.Rol);
 					connection.Open();
 					res = Convert.ToInt32(command.ExecuteScalar());

@@ -9,13 +9,16 @@ namespace AplicacionPrueba.Models
 {
     public class Contrato
     {
+        [Key]
         [Display(Name = "Codigo")]        
         public int Id { get; set; }
         [Required]
         [Display(Name = "Fecha Inicio")]
+        [DataType(DataType.Date)]
         public DateTime fe_ini { get; set; }
         [Required]
         [Display(Name = "Fecha Finalizacion")]
+        [DataType(DataType.Date)]
         public DateTime fe_fin { get; set; }
         [Required]
         public int monto { get; set; }

@@ -32,12 +32,12 @@ namespace AplicacionPrueba.Controllers
 
         public UsuarioController(ILogger<UsuarioController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
-            this.configuration = configuration;
             this.environment = environment;
-            repositorioUsuario = new RepositorioUsuario();
-            repositorioPropietario = new RepositorioPropietario();
-            repositorioInquilino = new RepositorioInquilino();
-            repositorioInmueble = new RepositorioInmueble();
+            this.configuration = configuration;
+            this.repositorioUsuario = new RepositorioUsuario(configuration);
+            this.repositorioPropietario = new RepositorioPropietario(configuration);
+            this.repositorioInquilino = new RepositorioInquilino(configuration);
+            this.repositorioInmueble = new RepositorioInmueble(configuration);
             _logger = logger;
         }
 
@@ -153,6 +153,7 @@ namespace AplicacionPrueba.Controllers
 
 
         [Authorize]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Perfil()
         {
             ViewData["Title"] = "Mi perfil";

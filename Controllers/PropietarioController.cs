@@ -1,6 +1,8 @@
 ﻿using AplicacionPrueba.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -15,14 +17,15 @@ namespace AplicacionPrueba.Controllers
         private readonly ILogger<PropietarioController> _logger;
         private readonly RepositorioPropietario repositorioPropietario;
         private readonly RepositorioInmueble repoInmu;
-        public PropietarioController(ILogger<PropietarioController> logger)
+        public PropietarioController(ILogger<PropietarioController> logger, IConfiguration config)
         {
-            repositorioPropietario = new RepositorioPropietario();
-            repoInmu = new RepositorioInmueble();
+            this.repositorioPropietario = new RepositorioPropietario(config);
+            this.repoInmu = new RepositorioInmueble(config);
             _logger = logger;
         }
 
         // GET: 
+        [Authorize]
         public IActionResult Index()
         {
             var lta = repositorioPropietario.obtener();
@@ -31,6 +34,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // GET: 
+        [Authorize]
         public IActionResult Alta()
         {
             return View();
@@ -39,12 +43,12 @@ namespace AplicacionPrueba.Controllers
         // POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Alta(Propietario p)
         {
             try
             {
-                RepositorioPropietario alta = new RepositorioPropietario();
-                alta.Alta(p);
+                repositorioPropietario.Alta(p);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -56,6 +60,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // 
+        [Authorize]
         public IActionResult Editar(int id)
         { 
             Propietario p = repositorioPropietario.Buscar(id);            
@@ -65,12 +70,12 @@ namespace AplicacionPrueba.Controllers
         // 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Editar(Propietario p)
         {
             try
             {
-            RepositorioPropietario riEdit = new RepositorioPropietario();
-            riEdit.Editar(p);
+            repositorioPropietario.Editar(p);
             return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -81,6 +86,7 @@ namespace AplicacionPrueba.Controllers
             }
         }
 
+        [Authorize]
         public IActionResult Detalles(int id)
         { 
             var lta = repoInmu.obtenerPorPropietario(id);
@@ -89,7 +95,8 @@ namespace AplicacionPrueba.Controllers
             return View(p);
         }
 
-        // GET: /Delete/5
+        // GET
+        [Authorize(Policy = "Administrador")]
         public IActionResult Delete(int id)
         {
             repositorioPropietario.Borrar(id);

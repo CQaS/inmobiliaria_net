@@ -28,16 +28,17 @@ namespace AplicacionPrueba.Controllers
         private readonly RepositorioContrato repoContrato;
         private readonly IWebHostEnvironment environment;
 
-        public InmuebleController(ILogger<InmuebleController> logger, IWebHostEnvironment environment)
+        public InmuebleController(ILogger<InmuebleController> logger, IWebHostEnvironment environment, IConfiguration config)
         {
             this.environment = environment;
-            repositorioInmueble = new RepositorioInmueble();
-            repositorioPropietario = new RepositorioPropietario();
-            repoContrato = new RepositorioContrato();
+            this.repositorioInmueble = new RepositorioInmueble(config);
+            this.repositorioPropietario = new RepositorioPropietario(config);
+            this.repoContrato = new RepositorioContrato(config);
             _logger = logger;
         }
 
-        // GET: 
+        // GET:
+        [Authorize] 
         public IActionResult Index()
         {
             var lta = repositorioInmueble.obtener();
@@ -46,6 +47,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // GET: 
+        [Authorize]
         public IActionResult Alta()
         {
             var lta = repositorioPropietario.obtener();
@@ -56,6 +58,7 @@ namespace AplicacionPrueba.Controllers
         // POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Alta(Inmueble i)
         {
             try
@@ -70,9 +73,9 @@ namespace AplicacionPrueba.Controllers
                             {
                                 Directory.CreateDirectory(path);
                             }
-                            string fileName = "Inmueble_" + i.id_propietario + Path.GetExtension(i.FotoFile.FileName);
-                            string pathCompleto = Path.Combine("img/fotos"+i.id_propietario, fileName);
-                            i.foto = Path.Combine(path, fileName);
+                            string fileName = "Inmueble_" + DateTime.Now.ToString("dd_MM_yyyy") + DateTime.Now.ToString("hh_mm_ss") + Path.GetExtension(i.FotoFile.FileName);
+                            string pathCompleto = Path.Combine(path, fileName);
+                            i.foto = Path.Combine("/img/fotos"+i.id_propietario, fileName);
                             using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
                             {
                                 i.FotoFile.CopyTo(stream);
@@ -100,6 +103,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // GET
+        [Authorize]
         public IActionResult Editar(int id)
         {
             Inmueble i = repositorioInmueble.Buscar(id);
@@ -112,12 +116,12 @@ namespace AplicacionPrueba.Controllers
         // 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Editar(Inmueble i)
         {
             try
             {
-            RepositorioInmueble riEdit = new RepositorioInmueble();
-            riEdit.Editar(i);
+            repositorioInmueble.Editar(i);
             return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -128,12 +132,14 @@ namespace AplicacionPrueba.Controllers
             }
         }
 
+        [Authorize]
         public IActionResult Detalles(int id)
         {
             Inmueble i = repositorioInmueble.Buscar(id); 
             return View(i);
         }
 
+        [Authorize]
         public IActionResult VerContratos(int id)
         {
             var lta = repoContrato.VerContratosXInmueble(id);
@@ -142,6 +148,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // 
+        [Authorize(Policy = "Administrador")]
         public IActionResult Delete(int id)
         {
             repositorioInmueble.Borrar(id);

@@ -10,6 +10,7 @@ namespace AplicacionPrueba.Models
 {
     public class Inmueble
     {
+        [Key]
         [Display(Name = "Codigo")]
         public int Id_inmu { get; set; }
         [Required]

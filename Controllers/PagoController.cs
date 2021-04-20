@@ -26,10 +26,10 @@ namespace AplicacionPrueba.Controllers
         private readonly RepositorioPago repositorioPago;
         private readonly RepositorioContrato repositorioContrato;
 
-        public PagoController(ILogger<PagoController> logger)
+        public PagoController(ILogger<PagoController> logger, IConfiguration config)
         {
-            repositorioPago = new RepositorioPago();
-            repositorioContrato = new RepositorioContrato();
+            this.repositorioPago = new RepositorioPago(config);
+            this.repositorioContrato = new RepositorioContrato(config);
             _logger = logger;
         }
 
@@ -104,8 +104,7 @@ namespace AplicacionPrueba.Controllers
         {
             try
             {
-            RepositorioPago pEdit = new RepositorioPago();
-            pEdit.Editar(i);
+            repositorioPago.Editar(i);
             return RedirectToAction("Index");
             }
             catch (Exception ex)

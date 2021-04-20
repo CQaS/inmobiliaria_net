@@ -1,6 +1,8 @@
 ﻿using AplicacionPrueba.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -19,16 +21,17 @@ namespace AplicacionPrueba.Controllers
         private readonly RepositorioInquilino repositorioInquilino;
         private readonly RepositorioInmueble repositorioInmueble;
 
-        public ContratoController(ILogger<ContratoController> logger)
+        public ContratoController(ILogger<ContratoController> logger, IConfiguration config)
         {
-            repositorioContrato = new RepositorioContrato();
-            repositorioPropietario = new RepositorioPropietario();
-            repositorioInquilino = new RepositorioInquilino();
-            repositorioInmueble = new RepositorioInmueble();
+            this.repositorioContrato = new RepositorioContrato(config);
+            this.repositorioPropietario = new RepositorioPropietario(config);
+            this.repositorioInquilino = new RepositorioInquilino(config);
+            this.repositorioInmueble = new RepositorioInmueble(config);
             _logger = logger;
         }
 
-        // GET: 
+        // GET:
+        [Authorize]
         public IActionResult Index()
         {
             var lta = repositorioContrato.obtener();
@@ -36,7 +39,8 @@ namespace AplicacionPrueba.Controllers
             return View();
         }
 
-        // GET: 
+        // GET:
+        [Authorize] 
         public IActionResult Alta()
         {
             var lta = repositorioInmueble.obtener();
@@ -49,14 +53,14 @@ namespace AplicacionPrueba.Controllers
         // POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Alta(Contrato i)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
-                    RepositorioContrato alta = new RepositorioContrato();
-                    alta.Alta(i);
+                    repositorioContrato.Alta(i);
                     return RedirectToAction("Index");
                 }
                 else
@@ -75,6 +79,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // GET
+        [Authorize]
         public IActionResult Editar(int id)
         {
             Contrato i = repositorioContrato.Buscar(id);
@@ -89,12 +94,12 @@ namespace AplicacionPrueba.Controllers
         // 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Editar(Contrato i)
         {
             try
             {
-            RepositorioContrato riEdit = new RepositorioContrato();
-            riEdit.Editar(i);
+            repositorioContrato.Editar(i);
             return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -105,6 +110,7 @@ namespace AplicacionPrueba.Controllers
             }
         }
 
+        [Authorize]
         public IActionResult Detalles(int id)
         {
             Contrato i = repositorioContrato.Buscar(id);
@@ -116,6 +122,7 @@ namespace AplicacionPrueba.Controllers
         }
 
         // 
+        [Authorize(Policy = "Administrador")]
         public IActionResult Delete(int id)
         {
             repositorioContrato.Borrar(id);

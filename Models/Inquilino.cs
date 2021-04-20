@@ -8,6 +8,7 @@ namespace AplicacionPrueba.Models
 {
     public class Inquilino
     {
+        [Key]
         [Display(Name = "Codigo")]
         public int Id { get; set; }
         [Required]

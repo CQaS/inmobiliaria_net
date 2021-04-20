@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
  
 namespace AplicacionPrueba.Models
 {
-    public class RepositorioContrato
+    public class RepositorioContrato : RepositorioBase
     {
-        private readonly string connectionString;
 
-        public RepositorioContrato()
+        public RepositorioContrato(IConfiguration configuration): base(configuration)
         {
-            connectionString = "Server=localhost;Database=inmobiliaria_net;Uid=root;Pwd=";
+
         }
         
         public List<Contrato> obtener()
@@ -190,3 +190,4 @@ namespace AplicacionPrueba.Models
 }
     
 
+//SELECT id as Contrato, TIMESTAMPDIFF(MONTH, Curdate(), fe_fin) as Meses FROM contrato WHERE id = 1
