@@ -57,12 +57,16 @@
                 @Html.ActionLink("Eliminar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Borrar el Pago?')" })
                 }
             </td>
-        </tr>}
+        </tr>
+        }
     </tbody>
 </table>
 
 <p>
-    <a asp-action="Alta" class="btn btn-primary">Abonar un Contrato</a>
+    <big><big>
+    <i class="fa fa-usd"></i>
+    @Html.ActionLink("Pagar", "Pagar", "Pago",new { id=@ViewBag.Contrato.Id})
+    </big></big>
     <a asp-action="index" asp-controller="Pago" title="Pagos" class="btn btn-secondary">Volver</a>
 </p>
  }

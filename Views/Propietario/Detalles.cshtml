@@ -79,13 +79,16 @@ else
         </tr>
     </thead>
     <tbody>
-@if(inmuebles == null){<tr><td>Sin Propiedates ingresadas</td><td>Sin Propiedates ingresadas</td></tr>}
 @foreach (var item in inmuebles) {
         <tr align="center">
             <td>
                 <h2>
-                @Html.DisplayFor(modelItem => item.Direccion_in)
+                    @Html.DisplayFor(modelItem => item.Direccion_in) |
                 </h2>
+                <h4>
+                    <i class="fa fa-info-circle"></i>
+                    @Html.ActionLink("Detalles", "Detalles", "Inmueble", new { id=item.Id_inmu})
+                </h4>
             </td>
             <td>
                 @if (item.foto != "")

@@ -112,9 +112,29 @@ namespace AplicacionPrueba.Models
 			return res;
 		}
 
+        public int max(int id)
+        {
+            int res = 0;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                string sql = $"SELECT MAX(num_pago +1) FROM pagos WHERE ContratoId = @Id";
+                
+                using (var command = new MySqlCommand(sql, connection))
+                {
+					command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+                    connection.Open();
+                    res = Convert.ToInt32(command.ExecuteScalar());
+                    connection.Close();
+                }
+            }
+            
+            return res;
+        }
+
 
         public int Alta(Pago e)
         {
+            
             var res = -1;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {

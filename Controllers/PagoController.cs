@@ -45,6 +45,8 @@ namespace AplicacionPrueba.Controllers
         [Authorize]
         public ActionResult PorContrato(int id)
         {
+            var res = repositorioContrato.Buscar(id);
+            ViewData[nameof(Contrato)] = res;
             var lista = repositorioPago.BuscarPorContrato(id);            
             ViewData[nameof(Pago)] = lista;
             return View();
@@ -84,6 +86,37 @@ namespace AplicacionPrueba.Controllers
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrace = ex.StackTrace;
                 return RedirectToAction("Index");
+            }
+        }
+
+        // GET
+        [Authorize]
+        public IActionResult Pagar(int id)
+        {
+            var max = repositorioPago.max(id);
+            ViewData["max"] = max;
+            var res = repositorioContrato.Buscar(id);
+            ViewData[nameof(Contrato)] = res;
+            Pago i = repositorioPago.Buscar(id);
+            return View(i);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public IActionResult Pagar(Pago i)
+        {
+            try
+            {
+            i.ContratoId = i.Id;
+            repositorioPago.Alta(i);
+            return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(i);
             }
         }
 

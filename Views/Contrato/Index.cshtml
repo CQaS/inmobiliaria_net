@@ -18,6 +18,9 @@
     <thead class="thead-dark">
         <tr>
             <th>
+                Pagar $$
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.fe_ini)
             </th>
             <th>
@@ -37,6 +40,12 @@
         @foreach (var item in contratos)
         {
             <tr>
+                <td>
+                    <big><big>
+                    <i class="fa fa-usd"></i>
+                    @Html.ActionLink("Pagar", "Pagar", "Pago",new { id=item.Id})
+                    </big></big>
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.fe_ini, "{0:dd/MM/yyyy}")
                 </td>
