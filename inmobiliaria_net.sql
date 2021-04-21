@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-04-2021 a las 18:49:17
+-- Tiempo de generación: 21-04-2021 a las 23:51:29
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -20,6 +20,24 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `inmobiliaria_net`
 --
+
+DELIMITER $$
+--
+-- Funciones
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `Maxi` (`ultimo` INT) RETURNS INT(11) BEGIN
+    DECLARE ultimopago int default 1;
+    
+    SELECT IFNULL(max(num_pago +1), 1)
+    INTO ultimopago
+    FROM pagos 
+    WHERE ContratoId = ultimo;
+    
+    RETURN ultimopago;
+	
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -45,12 +63,12 @@ INSERT INTO `contrato` (`id`, `fe_ini`, `fe_fin`, `monto`, `id_inmueble`, `id_in
 (1, '2021-04-15', '2022-10-16', 960000, 1, 3, 1),
 (2, '2021-04-01', '2022-12-31', 50000, 3, 8, 1),
 (3, '2021-04-21', '2021-10-21', 50000, 4, 8, 1),
-(4, '2022-12-17', '2022-12-31', 205000, 1, 7, 1),
-(5, '2025-10-15', '2025-10-15', 44050, 4, 8, 1),
-(6, '2001-01-01', '2001-01-01', 34050, 3, 7, 1),
-(9, '2021-04-20', '2021-04-30', 506667, 6, 10, 0),
-(10, '2023-04-03', '2023-12-31', 200000, 1, 9, 1),
-(11, '2021-04-23', '2021-11-26', 34050, 8, 3, 1),
+(4, '2021-12-17', '2022-12-31', 205000, 2, 7, 1),
+(5, '2021-10-15', '2021-11-15', 44050, 9, 8, 1),
+(6, '2021-01-01', '2021-07-01', 34050, 7, 7, 1),
+(9, '2021-04-20', '2021-09-30', 506667, 6, 10, 0),
+(10, '2021-04-03', '2022-12-31', 200000, 11, 9, 1),
+(11, '2021-04-23', '2021-11-30', 34050, 8, 3, 1),
 (12, '2021-01-01', '2021-12-31', 8000, 5, 9, 1);
 
 -- --------------------------------------------------------
@@ -83,7 +101,9 @@ INSERT INTO `inmueble` (`id_Inmu`, `direccion_in`, `uso`, `tipo`, `ambientes`, `
 (5, 'Barranca Colorada', 'Cabaña', 'Hogar', 5, 25000, 11, 1, '/img/fotos5/frente.jpg'),
 (6, 'Cerro Aspero', 'Deportivo', 'Club', 10, 300000, 9, 1, '/img/fotos6/frente.jpg'),
 (7, 'Chumamaya', 'Familiar', 'Chalet', 7, 50000, 10, 1, '\\img/fotos10\\Inmueble_10.jpg'),
-(8, 'Chumamaya lote5', 'Cabaña', 'Hogar', 5, 34000, 4, 1, '/img/fotos4/Inmueble_4.jpg');
+(8, 'Chumamaya lote5', 'Cabaña', 'Hogar', 5, 34000, 4, 1, '/img/fotos4/Inmueble_4.jpg'),
+(10, 'Piedra Blanca Este', 'Social', 'Club', 8, 100000, 12, 1, '/img/fotos12\\Inmueble_19_04_2021.jpg'),
+(11, 'Ptro. Becerra 210', 'Familiar', 'Dpto', 4, 46000, 12, 1, '/img/fotos12\\Inmueble_19_04_202107_44_48.jpg');
 
 -- --------------------------------------------------------
 
@@ -140,12 +160,15 @@ CREATE TABLE `pagos` (
 INSERT INTO `pagos` (`id`, `num_pago`, `fecha`, `importe`, `ContratoId`, `estado`) VALUES
 (1, 1, '2021-04-13', '44050', 5, 0),
 (2, 2, '2021-04-16', '67000', 2, 1),
-(3, 3, '2021-04-14', '10050', 10, 1),
-(4, 4, '2021-04-24', '99944', 6, 1),
-(5, 10, '2021-04-17', '34522', 10, 1),
+(3, 1, '2021-04-14', '10050', 10, 1),
+(4, 1, '2021-04-24', '99944', 6, 1),
+(5, 2, '2021-04-17', '34522', 10, 1),
 (6, 1, '2021-04-18', '8000', 12, 1),
 (7, 1, '2021-04-19', '12000', 11, 1),
-(8, 2, '2021-05-18', '8000', 12, 1);
+(8, 2, '2021-05-18', '8000', 12, 1),
+(10, 2, '2021-04-21', '34050', 6, 1),
+(11, 1, '2021-04-23', '205000', 4, 1),
+(12, 1, '2021-04-30', '50000', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -190,6 +213,7 @@ CREATE TABLE `usuarios` (
   `Avatar` varchar(50) COLLATE utf8_spanish_ci NOT NULL DEFAULT '/img/default.jpg',
   `Mail` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `Clave` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `pregunta` varchar(150) COLLATE utf8_spanish_ci NOT NULL,
   `Rol` int(10) NOT NULL,
   `estado` int(5) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -198,15 +222,15 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `Nombre`, `Apellido`, `Avatar`, `Mail`, `Clave`, `Rol`, `estado`) VALUES
-(2, 'Admin', 'Admin', '/img/avatars/admin.jpg', 'admin@mail.com', 'Od5l8kFX8vwvOF5BPAZjFy6qbs/5m9WgQzPkKL1TqA8=', 1, 1),
-(8, 'Yanina', 'Sarmiento', '/img/avatars/avatar_yani@mail.com.jpg', 'yani@mail.com', 'O/GNVCJ4WQOmY9isoyQQcW0RuNMdL2oZjHij8JUvyh4=', 2, 1),
-(9, 'Lorenzo', 'Rosales', '/img/default.jpg', 'rosales@mail.com', 'xgoKeIJD+VeM6HIFoQArXwHk/grZSiA1bY5N79w2RPQ=', 2, 0),
-(10, 'Dante', 'Gaudes', '/img/avatars/avatar_gaude@mail.com.jpg', 'gaude@mail.com', '1YTD46gt2Z3a7nHRAD1xOuveWcFwr6S74ase1jkD1Fw=', 2, 1),
-(11, 'Ramoncito', 'Alba', '/img/avatars\\avatar_alba@mail.com.jpg', 'alba@mail.com', 'SM7sXEHBQIopzhSXLc7G8ZcIbwqY/ueyo5rS8+R6MCM=', 2, 1),
-(12, 'Mara', 'Cuello', '/img/avatars\\avatar_cuello@mail.com.jpg', 'cuello@mail.com', 'SM7sXEHBQIopzhSXLc7G8ZcIbwqY/ueyo5rS8+R6MCM=', 2, 1),
-(13, 'Walter', 'Oviedo', '/img/avatars\\avatar_aviedo@mail.com.jpg', 'aviedo@mail.com', 'SM7sXEHBQIopzhSXLc7G8ZcIbwqY/ueyo5rS8+R6MCM=', 2, 1),
-(14, 'Roxi', 'Almeida', '/img/avatars\\avatar_almeida@mail.com.jpg', 'almeida@mail.com', 'SM7sXEHBQIopzhSXLc7G8ZcIbwqY/ueyo5rS8+R6MCM=', 1, 1);
+INSERT INTO `usuarios` (`id`, `Nombre`, `Apellido`, `Avatar`, `Mail`, `Clave`, `pregunta`, `Rol`, `estado`) VALUES
+(2, 'Admin', 'Admin', '/img/avatars/admin.jpg', 'admin@mail.com', 'Od5l8kFX8vwvOF5BPAZjFy6qbs/5m9WgQzPkKL1TqA8=', 'admin', 1, 1),
+(8, 'Yanina', 'Sarmiento', '/img/avatars/avatar_yani@mail.com.jpg', 'yani@mail.com', 'O/GNVCJ4WQOmY9isoyQQcW0RuNMdL2oZjHij8JUvyh4=', 'yani', 2, 1),
+(9, 'Lorenzo', 'Rosales', '/img/default.jpg', 'rosales@mail.com', 'xgoKeIJD+VeM6HIFoQArXwHk/grZSiA1bY5N79w2RPQ=', 'rosales', 2, 0),
+(10, 'Dante', 'Gaudes', '/img/avatars/avatar_gaude@mail.com.jpg', 'gaude@mail.com', '1YTD46gt2Z3a7nHRAD1xOuveWcFwr6S74ase1jkD1Fw=', 'gaude', 2, 1),
+(11, 'Ramoncito', 'Alba', '/img/avatars\\avatar_alba@mail.com.jpg', 'alba@mail.com', 'SM7sXEHBQIopzhSXLc7G8ZcIbwqY/ueyo5rS8+R6MCM=', 'alba', 2, 1),
+(12, 'Mara', 'Cuello', '/img/avatars\\avatar_cuello@mail.com.jpg', 'cuello@mail.com', 'SM7sXEHBQIopzhSXLc7G8ZcIbwqY/ueyo5rS8+R6MCM=', 'cuello', 2, 1),
+(13, 'Walter', 'Oviedo', '/img/avatars\\avatar_aviedo@mail.com.jpg', 'aviedo@mail.com', 'SM7sXEHBQIopzhSXLc7G8ZcIbwqY/ueyo5rS8+R6MCM=', 'aviedo', 2, 1),
+(14, 'Roxi', 'Almeida', '/img/avatars\\avatar_almeida@mail.com.jpg', 'almeida@mail.com', 'SM7sXEHBQIopzhSXLc7G8ZcIbwqY/ueyo5rS8+R6MCM=', 'almeida', 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -262,7 +286,7 @@ ALTER TABLE `contrato`
 -- AUTO_INCREMENT de la tabla `inmueble`
 --
 ALTER TABLE `inmueble`
-  MODIFY `id_Inmu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_Inmu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `inquilinos`
@@ -274,7 +298,7 @@ ALTER TABLE `inquilinos`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `propietarios`

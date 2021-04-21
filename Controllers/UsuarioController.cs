@@ -241,7 +241,6 @@ namespace AplicacionPrueba.Controllers
         // GET: Usuario/Login/
         public ActionResult Login(string returnUrl)
         {
-            TempData["returnUrl"] = returnUrl;
             return View();
         }
 

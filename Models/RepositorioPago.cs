@@ -117,8 +117,10 @@ namespace AplicacionPrueba.Models
             int res = 0;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT MAX(num_pago +1) FROM pagos WHERE ContratoId = @Id";
-                
+                //Procedimiento almacenado.
+                //retorna el siguiente numero de Paga para el siguiente cobro
+                string sql = $"SELECT Maxi(@id)";
+
                 using (var command = new MySqlCommand(sql, connection))
                 {
 					command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
