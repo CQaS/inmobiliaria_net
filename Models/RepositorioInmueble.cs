@@ -53,6 +53,47 @@ namespace AplicacionPrueba.Models
             return res;
         }
 
+        public IList<Inmueble> BuscarInmueblesDisponibles(BuscarPorFecha f)
+		{
+			var res = new List<Inmueble>();
+
+			using (MySqlConnection connection = new MySqlConnection(connectionString))
+			{
+				string sql = "SELECT i.id_Inmu, i.direccion_in, i.Uso, i.Tipo, i.Ambientes, i.precio, i.id_propietario, p.Nombre FROM Inmueble i INNER JOIN Propietarios p ON i.id_Propietario = p.id WHERE (SELECT COUNT(c.id) AS contID FROM Contrato c WHERE c.id_inmueble = i.id_Inmu AND ((c.fe_ini BETWEEN @inicio AND @fin) OR (c.fe_fin BETWEEN @inicio AND @fin) OR (c.fe_ini < @inicio AND c.fe_fin > @fin))) = 0 AND i.estado = 1";
+				using (MySqlCommand command = new MySqlCommand(sql, connection))
+				{
+					command.Parameters.Add("@inicio", MySqlDbType.Date).Value = f.FechaInicio;
+					command.Parameters.Add("@fin", MySqlDbType.Date).Value = f.FechaFin;
+					command.CommandType = System.Data.CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+					while (reader.Read())
+					{
+						var e = new Inmueble
+                        {
+                            Id_inmu = reader.GetInt32(0),
+                            Direccion_in = reader.GetString(1),
+                            Uso = reader.GetString(2),
+                            Tipo = reader.GetString(3),
+                            ambientes = reader.GetInt32(4),
+                            precio = reader.GetInt32(5),
+                            id_propietario = reader.GetInt32(6),
+                            Duenio = new Propietario
+                            {
+                                
+                                Id = reader.GetInt32(6),
+                                Nombre = reader.GetString(7),
+                            }
+                        };
+                        res.Add(e);
+					}
+					connection.Close();
+				}
+			}
+		return res;
+
+		}
+
         public List<Inmueble> obtenerPorPropietario(int id)
         {
             var res = new List<Inmueble>();
@@ -194,6 +235,7 @@ namespace AplicacionPrueba.Models
             }
             return i;
         }
+
     }
 }
     

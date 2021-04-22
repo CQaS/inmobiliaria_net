@@ -43,7 +43,27 @@ namespace AplicacionPrueba.Controllers
         {
             var lta = repositorioInmueble.obtener();
             ViewData[nameof(Inmueble)] = lta;
+            ViewData["listaInmu"] = "Nuestros Inmuebles Actuales";
             return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult BuscarPorFecha(BuscarPorFecha busqueda)
+        {
+
+            var lista = repositorioInmueble.BuscarInmueblesDisponibles(busqueda);
+            ViewData[nameof(Inmueble)] = lista;
+            ViewData["listaPorFecha"] = "Periodo de busqueda: "+ busqueda.FechaInicio.ToShortDateString() +" - "+ busqueda.FechaFin.ToShortDateString();
+
+            if (TempData.ContainsKey("Id"))
+                ViewBag.Id = TempData["Id"];
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+
+
+            return View(nameof(Index));
+
         }
 
         // GET: 
@@ -169,5 +189,6 @@ namespace AplicacionPrueba.Controllers
                 return View();
             }
         }
+
     }
 }

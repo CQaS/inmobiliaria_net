@@ -35,5 +35,6 @@ namespace AplicacionPrueba.Models
         public Inquilino inquilino { get; set; }
         public Contrato contrato { get; set; }
         public Inmueble inmueble { get; set; }
+        public BuscarPorFecha buscarPorFecha{ get; set;}
     }
 }
