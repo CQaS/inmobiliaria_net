@@ -183,11 +183,21 @@ namespace AplicacionPrueba.Models
                     i = command.ExecuteNonQuery();
                     connection.Close();
                 }
+
+                string multa = $"Select Multa(@id)";
+
+                using (var command = new MySqlCommand(multa, connection))
+                {
+                    command.Parameters.Add("@id", MySqlDbType.UInt32);
+                    command.Parameters["@id"].Value = idcon;
+                    connection.Open();
+                    i =  Convert.ToInt32(command.ExecuteScalar());
+                    connection.Close();
+                }
+
             }
             return i;
         }
     }
 }
     
-
-//SELECT id as Contrato, TIMESTAMPDIFF(MONTH, Curdate(), fe_fin) as Meses FROM contrato WHERE id = 1

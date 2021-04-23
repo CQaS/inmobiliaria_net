@@ -125,7 +125,8 @@ namespace AplicacionPrueba.Controllers
         [Authorize(Policy = "Administrador")]
         public IActionResult Delete(int id)
         {
-            repositorioContrato.Borrar(id);
+            var multa = repositorioContrato.Borrar(id);
+            ViewData["multa"] = multa;
             return RedirectToAction("Index");
         }
 

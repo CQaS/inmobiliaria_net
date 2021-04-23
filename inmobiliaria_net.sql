@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-04-2021 a las 23:51:29
+-- Tiempo de generación: 23-04-2021 a las 02:39:44
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -35,6 +35,24 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `Maxi` (`ultimo` INT) RETURNS INT(11)
     
     RETURN ultimopago;
 	
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `Multa` (`m` INT) RETURNS INT(11) BEGIN 
+DECLARE multon int default -1;
+
+SELECT (( SELECT TIMESTAMPDIFF(MONTH, Curdate(), fe_fin) as Meses FROM contrato WHERE id = m) /(SELECT TIMESTAMPDIFF(MONTH, fe_ini, fe_fin) as Meses FROM contrato WHERE id = m))
+INTO multon
+FROM contrato 
+WHERE id = m;
+
+IF multon > 0.5 THEN
+SET multon = 1;
+ELSEIF multon < 0.5 THEN
+SET multon = 2;
+END IF;
+    
+RETURN multon;
+
 END$$
 
 DELIMITER ;
@@ -69,7 +87,7 @@ INSERT INTO `contrato` (`id`, `fe_ini`, `fe_fin`, `monto`, `id_inmueble`, `id_in
 (9, '2021-04-20', '2021-09-30', 506667, 6, 10, 0),
 (10, '2021-04-03', '2022-12-31', 200000, 11, 9, 1),
 (11, '2021-04-23', '2021-11-30', 34050, 8, 3, 1),
-(12, '2021-01-01', '2021-12-31', 8000, 5, 9, 1);
+(12, '2021-01-01', '2021-05-31', 8000, 5, 9, 1);
 
 -- --------------------------------------------------------
 

@@ -12,6 +12,27 @@
  else
  {
 
+@if(ViewBag.multa == 1)
+    {
+        <div class="alert alert-danger aler-dismissible fade show" role="alert">
+            <strong>El Señor debe pagar una Multa de 2(Dos) Meses de alquiler por terminar antes su Contrato!!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="cloce">
+                <span arial-hidden="true"><span class="fa fa-radiation-alt"></span></span>
+            </button>
+        </div>
+    }
+
+@if(ViewBag.multa == 2)
+    {
+        <div class="alert alert-danger aler-dismissible fade show" role="alert">
+            <strong>El Señor debe pagar una Multa de 1(Un) Meses de alquiler por terminar antes su Contrato!!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="cloce">
+                <span arial-hidden="true"><span class="fa fa-radiation-alt"></span></span>
+            </button>
+        </div>
+    }
+
+
 <h5>Buscar Inmuebles por fecha:</h5><br>
 <form method="post" asp-action="BuscarPorFecha" asp-controller="Inmueble" class="form-inline">
     <div class="form-group">
@@ -81,7 +102,7 @@
                 <i class="fa fa-info-circle"></i>
                 @Html.ActionLink("Detalles", "Detalles", new { id=item.Id}) |
                 <i class="fa fa-trash"></i>
-                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Borrar el Contrato de: " + @item.Inquilino.Nombre + "?')" })
+                @Html.ActionLink("Cancelar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Cancelar el Contrato de: " + @item.Inquilino.Nombre + "?')" })
             </td>
             </tr>
         }
