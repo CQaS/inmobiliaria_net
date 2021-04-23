@@ -36,6 +36,7 @@ namespace AplicacionPrueba.Controllers
         {
             var lta = repositorioContrato.obtener();
             ViewData[nameof(Contrato)] = lta;
+            ViewBag.multa = TempData["multa"];
             return View();
         }
 
@@ -126,7 +127,7 @@ namespace AplicacionPrueba.Controllers
         public IActionResult Delete(int id)
         {
             var multa = repositorioContrato.Borrar(id);
-            ViewData["multa"] = multa;
+            TempData["multa"] = multa;
             return RedirectToAction("Index");
         }
 

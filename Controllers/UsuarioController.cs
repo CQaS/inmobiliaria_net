@@ -152,23 +152,6 @@ namespace AplicacionPrueba.Controllers
         }
 
 
-        [Authorize]
-        [Authorize(Policy = "Administrador")]
-        public ActionResult Perfil()
-        {
-            ViewData["Title"] = "Mi perfil";
-            var u = repositorioUsuario.ObtenerPorEmail(User.Identity.Name);
-            ViewBag.Roles = Usuario.ObtenerRoles();
-            if (TempData.ContainsKey("Id"))
-                ViewBag.Id = TempData["Id"];
-            if (TempData.ContainsKey("Mensaje"))
-                ViewBag.Mensaje = TempData["Mensaje"];
-            if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];
-            return View("Edit", u);
-        }
-
-
         // GET: Usuario/Edit/5
         [Authorize(Policy = "Administrador")]
         public ActionResult Editar(int id)
