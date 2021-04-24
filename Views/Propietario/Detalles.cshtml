@@ -59,7 +59,7 @@ else
                 <i class="fa fa-edit"></i>
                 @Html.ActionLink("Editar", "Editar", new { id=Model.Id}) |
                 <i class="fa fa-trash"></i>
-                @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id})
+                @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id}, new { onclick = "return confirm('Borrar al Propietario: " + @Model.Nombre + "?')" })
             </td>
         </tr>
     </tbody>

@@ -15,7 +15,7 @@ namespace AplicacionPrueba.Models
         public int Dni { get; set; }
         [Required]
         public String Nombre { get; set; }
-        [Required, EmailAddress]
+        [Required, DataType(DataType.EmailAddress)]
         public String Mail { get; set; }
         [Required]
         public String Direccion { get; set; }

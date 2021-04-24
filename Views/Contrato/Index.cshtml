@@ -43,6 +43,7 @@
         <label for="FechaFin">Fecha hasta:</label>
         <input type="date" class="form-control" id="hasta" name="FechaFin">
     </div>
+    &nbsp;
     <button type="submit" class="btn btn-danger">Ver disponibles</button>
 </form>
 <br>
@@ -68,7 +69,11 @@
                 @Html.DisplayNameFor(model => model.Inmueble.Direccion_in)
             </th>
 
-            <th></th>
+            <th class="text-center">
+                
+                    <a asp-action="Alta" class="btn btn-primary"> Crear Contratos</a>
+                
+            </th>
         </tr>
     </thead>
     <tbody>

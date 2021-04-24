@@ -20,8 +20,8 @@ namespace AplicacionPrueba.Models
         {
             var res = new List<Propietario>();
             using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {//id nombre dni direccion tel
-                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}, {nameof(Propietario.Tel)}  FROM propietarios";
+            {
+                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}, {nameof(Propietario.Tel)}  FROM propietarios WHERE estado = 1";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -50,7 +50,7 @@ namespace AplicacionPrueba.Models
             Propietario Pro;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}, {nameof(Propietario.Tel)}  FROM propietarios where id=@idP";
+                string sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Direccion)}, {nameof(Propietario.Tel)}  FROM propietarios where id=@idP AND estado = 1";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@idP", MySqlDbType.Int32).Value = id;
@@ -139,7 +139,7 @@ namespace AplicacionPrueba.Models
             var i = 0;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"delete from propietarios where id=@idIn";
+                string sql = $"update propietarios SET estado = 0 where id=@idIn";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {

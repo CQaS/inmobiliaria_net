@@ -75,7 +75,7 @@
         </nav>
     </header>
 
-    @if(!String.IsNullOrEmpty(ViewBag.Error))
+@if(!String.IsNullOrEmpty(ViewBag.Error))
 {
 <div class="alert alert-danger aler-dismissible fade show" role="alert">
     <strong>Informacion: </strong>@ViewBag.Error
@@ -83,6 +83,15 @@
         <span arial-hidden="true"><span class="fa fa-radiation-alt"></span></span>
     </button>
 </div>
+}
+@if (!String.IsNullOrEmpty(ViewBag.Mensaje))
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>Información:</strong> @ViewBag.Mensaje
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><span class="lnr lnr-cross-circle"></span></span>
+            </button>
+    </div>
 }
 
     <div class="container">

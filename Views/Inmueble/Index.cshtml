@@ -12,36 +12,56 @@
  else
  {
 
-<h5>Buscar Inmuebles por fecha:</h5><br>
+<h5>Buscar Inmuebles por fecha:</h5>
+<br>
 <form method="post" asp-action="BuscarPorFecha" class="form-inline">
     <div class="form-group">
         <label for="FechaInicio">Fecha desde:</label>
         <input type="date" class="form-control" id="desde" name="FechaInicio">
     </div>
+    &nbsp;
     <div class="form-group">
-        <label for="FechaFin">Fecha hasta:</label>
+        <label for="FechaFin"> Fecha hasta:</label>
         <input type="date" class="form-control" id="hasta" name="FechaFin">
     </div>
-    <button type="submit" class="btn btn-danger">Ver disponibles</button>
+    &nbsp;
+    <button type="submit" class="btn btn-danger">Ver disponibles</button>       
+    
 </form>
 <br>
 
 <h1>@ViewBag.listaInmu</h1>
+
 <h1>@ViewBag.listaPorFecha</h1>
 
 <table class="table">
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Direccion_in)
+                <h5>
+                    @Html.DisplayNameFor(model => model.Direccion_in)
+                </h5>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.precio)
+                <h5>
+                    @Html.DisplayNameFor(model => model.precio)
+                </h5>
             </th> 
             <th>
-                Propietario del Inmueble
+                <h5>
+                    Propietario del Inmueble
+                </h5>
             </th>         
-            <th></th>
+            <th class="text-center">
+                @if(String.IsNullOrEmpty(ViewBag.listaPorFecha))
+                { 
+                    <a asp-action="Alta" class="btn btn-primary"> Crear Inmuebles</a>
+                }
+                @if(!String.IsNullOrEmpty(ViewBag.listaPorFecha))
+                { 
+                    <a asp-action="Alta" asp-controller="Contrato" class="btn btn-primary"> Contratar</a>
+                }
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -70,7 +90,7 @@
 }
     </tbody>
 </table>
-    @if(ViewBag.listaPorFecha == "")
+    @if(String.IsNullOrEmpty(ViewBag.listaPorFecha))
     {
         <p>
             <a asp-action="Alta" class="btn btn-primary">Crear Inmuebles</a>

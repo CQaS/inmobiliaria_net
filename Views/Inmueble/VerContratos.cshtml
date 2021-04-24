@@ -29,7 +29,11 @@
             <th>
                 Direccion del Inmueble
             </th>         
-            <th></th>
+            <th class="text-center">
+                
+                <a asp-action="Alta" asp-controller="Contrato" class="btn btn-primary"> Crear Contratos</a>
+                
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -48,7 +52,10 @@
                 @Html.DisplayFor(modelItem => item.Inmueble.Direccion_in)
             </td>
             <td>
-                Mas Data!!!
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", "Contrato", new { id=item.Id}) |
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Cancelar", "Delete", "Contrato", new { id=item.Id}, new { onclick = "return confirm('Cancelar el Contrato de: " + @item.Inquilino.Nombre + "?')" })
             </td>
         </tr>
 }

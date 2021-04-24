@@ -35,7 +35,7 @@
                 <select class="form-control" name="ContratoId">
                     @foreach (var item in contratos) {
 
-                        <option value="@item.Id">@(item.Id)</option>                        
+                        <option value="@item.Id">@item.Id @item.Inmueble.Direccion_in</option>                        
                     }
 
                 </select>

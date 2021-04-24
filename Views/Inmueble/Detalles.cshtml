@@ -69,7 +69,7 @@
                 @Model.Direccion_in
             </td>
             <td>
-                @Model.precio
+                $ @Model.precio
             </td>
             <td>
                 @Model.Tipo
@@ -83,7 +83,7 @@
             </td>
             <td>
                 <i class="fa fa-trash"></i>
-                @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id_inmu})
+                @Html.ActionLink("Eliminar", "Delete", new { id=Model.Id_inmu}, new{ onclick = "return confirm('Borrar el Inmueble Ubicado en: " + @Model.Direccion_in +"?')" })
             </td>
         </tr>
     </tbody>

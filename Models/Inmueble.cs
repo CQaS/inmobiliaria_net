@@ -23,8 +23,12 @@ namespace AplicacionPrueba.Models
         [Required]
         public int ambientes { get; set; }
         [Required]
+        [Display(Name = "Precio")]
         public int precio { get; set; }
+        
         public String foto { get; set; }
+
+	    [Required]        
         [Display(Name = "Elige una Foto:")]
         public IFormFile FotoFile{ get; set; }
         [Display(Name = "Dueño")]
