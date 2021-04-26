@@ -106,8 +106,13 @@
                 @Html.ActionLink("Editar", "Editar", new { id=item.Id}) |
                 <i class="fa fa-info-circle"></i>
                 @Html.ActionLink("Detalles", "Detalles", new { id=item.Id}) |
+                
+                @if(ViewContext.HttpContext.User.IsInRole("Administrador"))
+                {
                 <i class="fa fa-trash"></i>
                 @Html.ActionLink("Cancelar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Cancelar el Contrato de: " + @item.Inquilino.Nombre + "?')" })
+                }
+                
             </td>
             </tr>
         }

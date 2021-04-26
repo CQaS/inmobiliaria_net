@@ -100,13 +100,14 @@ namespace AplicacionPrueba.Models
 			int res = -1;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"UPDATE Usuarios SET Nombre=@nombre, Apellido=@apellido, Rol=@rol WHERE Id = @id";
+				string sql = $"CALL editarUsuario(@id, @nombre, @apellido, @rol, @clave)";
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
 					command.Parameters.AddWithValue("@nombre", e.Nombre);
 					command.Parameters.AddWithValue("@apellido", e.Apellido);
 					command.Parameters.AddWithValue("@rol", e.Rol);
+					command.Parameters.AddWithValue("@clave", e.Clave);
 					command.Parameters.AddWithValue("@id", e.Id);
 					connection.Open();
 					res = command.ExecuteNonQuery();
@@ -121,8 +122,7 @@ namespace AplicacionPrueba.Models
 			int res = -1;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"UPDATE Usuarios SET Clave=@clave " +
-					$"WHERE Id = @id";
+				string sql = $"UPDATE Usuarios SET Clave=@clave WHERE Id = @id";
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;

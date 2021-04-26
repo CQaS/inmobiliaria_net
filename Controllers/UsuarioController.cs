@@ -55,13 +55,13 @@ namespace AplicacionPrueba.Controllers
             return View();
         }
 
-        // GET: Usuario/Details/5
+        /* GET: Usuario/Details/5
         [Authorize(Policy = "Administrador")]
         public ActionResult Detailles(int id)
         {
             var e = repositorioUsuario.ObtenerPorId(id);
             return View(e);
-        }
+        }*/
 
         // GET: Usuario/Create
         [Authorize(Policy = "Administrador")]
@@ -172,28 +172,36 @@ namespace AplicacionPrueba.Controllers
         [Authorize]
         public ActionResult Editar(int id, Usuario u)
         {
-            var vista = "Edit";
+            var vista = "Editar";
             try
             {
                 if (!User.IsInRole("Administrador"))
                 {
-                    vista = "Perfil";
                     var usuarioActual = repositorioUsuario.ObtenerPorEmail(User.Identity.Name);
                     if (usuarioActual.Id != id)//si no es admin, solo puede modificarse él mismo
                         return RedirectToAction(nameof(Index), "Home");
                     else
                     {
                         u.Rol = usuarioActual.Rol;
-                        repositorioUsuario.Modificacion(u);
+                        repositorioUsuario.Modifica(u);
                         TempData["Mensaje"] = "Datos guardados correctamente"; 
                         if (TempData.ContainsKey("Mensaje"))
                             ViewBag.Mensaje = TempData["Mensaje"];
 
-                        return RedirectToAction("Perfil", new { id = id });
+                        return RedirectToAction(nameof(Index));
                     }
                 }
                 else
                 {
+                    if(u.Clave !=null){
+                        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                                password: u.Clave,
+                                salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
+                                prf: KeyDerivationPrf.HMACSHA1,
+                                iterationCount: 1000,
+                                numBytesRequested: 256 / 8));
+                        u.Clave = hashed;
+                        }
                     repositorioUsuario.Modifica(u);
                     TempData["Mensaje"] = "Datos guardados correctamente";
 
@@ -208,6 +216,7 @@ namespace AplicacionPrueba.Controllers
             catch
             {
                 ViewBag.Roles = Usuario.ObtenerRoles();
+                TempData["Mensaje"] = "Algo Fallo!";
                 return View(vista, u);
             }
         }
@@ -246,7 +255,7 @@ namespace AplicacionPrueba.Controllers
 
                     var e = repositorioUsuario.ObtenerPorEmail(login.Usuario);
                     
-                    if (e == null) //|| e.Clave != hashed
+                    if (e == null || e.Clave != hashed)
                     {
                         ModelState.AddModelError("", "El mail o la clave no son correctos");
                         //TempData["returnUrl"] = returnUrl;

@@ -64,11 +64,13 @@
                 <td>
                 <i class="fa fa-edit"></i>
                 @Html.ActionLink("Editar", "Editar", new { id=item.Id}) |
+
                 @if(ViewContext.HttpContext.User.IsInRole("Administrador"))
                 {
                 <i class="fa fa-trash"></i>
                 @Html.ActionLink("Eliminar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Borrar el Pago?')" })
                 }
+                
             </td>
             </tr>
         }

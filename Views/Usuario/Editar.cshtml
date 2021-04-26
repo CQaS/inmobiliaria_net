@@ -41,9 +41,8 @@ else
         <form asp-action="Editar" class="my-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" readonly />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <input type="hidden" asp-for="Id" />
+                Empleado Nro: <h2>@Model.Id</h2>
             </div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
@@ -67,6 +66,11 @@ else
                     }
                 </select>
                 <span asp-validation-for="Rol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Clave" class="control-label"></label>
+                <input asp-for="Clave" class="form-control" />
+                <span asp-validation-for="Clave" class="text-danger"></span>
             </div>
             }
             <div class="form-group">
