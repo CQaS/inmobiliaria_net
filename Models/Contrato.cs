@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace AplicacionPrueba.Models
 {
+    
     public class Contrato
     {
         [Key]
