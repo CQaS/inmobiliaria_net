@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AplicacionPrueba.Models
 {
-    public abstract  class RepositorioBase
+    public abstract class RepositorioBase
     {
         protected readonly IConfiguration configuration;
         protected readonly string connectionString;
