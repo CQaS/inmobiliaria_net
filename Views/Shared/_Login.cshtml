@@ -16,8 +16,9 @@
                 <input asp-for="Clave" class="form-control" />
                 <span asp-validation-for="Clave" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-inline">
                 <input type="submit" value="Entrar" class="btn btn-dark" />
+                <a class="nav-link text-blue" asp-area="" asp-controller="Usuario" asp-action="RecuperaPass">Olvidaste tu Contraseña</a>
             </div>
         </form>
     </div>

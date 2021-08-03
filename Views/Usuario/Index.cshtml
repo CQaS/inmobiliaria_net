@@ -6,9 +6,9 @@
 }
 
 @if(!User.Identity.IsAuthenticated)
- {
+{
      await Html.RenderPartialAsync("_Login", new LoginView());
- }
+}
 else
 {
 

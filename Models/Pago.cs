@@ -25,5 +25,7 @@ namespace AplicacionPrueba.Models
         public int ContratoId { get; set; }
         [ForeignKey("ContratoId")]
         public Contrato Contrato { get; set; }
+        
+        public Inquilino inquilino { get; set; }
     }
 }

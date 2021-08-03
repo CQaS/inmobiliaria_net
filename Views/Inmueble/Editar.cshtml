@@ -13,10 +13,10 @@
  {
 
 <h1>Editar el Inmueble del Sr/a: 
-                    @foreach (var item in (IList<Propietario>)ViewBag.Propietario)
-                        {
-                        if(item.Id == Model.id_propietario){ @Html.DisplayFor(modelItem => item.Nombre) }
-                    }
+    @foreach (var item in (IList<Propietario>)ViewBag.Propietario)
+    {
+        if(item.Id == Model.id_propietario){ @Html.DisplayFor(modelItem => item.Nombre) }
+    }
 </h1>
 
 <div class="container">

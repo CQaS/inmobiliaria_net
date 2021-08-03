@@ -117,18 +117,18 @@ namespace AplicacionPrueba.Models
 			return res;
 		}
 
-		public int ModificarPass(Usuario e)
+		public int ModificarPass(string m, string p)
 		{
 			int res = -1;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"UPDATE Usuarios SET Clave=@clave WHERE Id = @id";
+				string sql = $"UPDATE Usuarios SET Clave=@clave WHERE Mail = @mail";
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
 			
-					command.Parameters.AddWithValue("@clave", e.Clave);
-					command.Parameters.AddWithValue("@id", e.Id);
+					command.Parameters.AddWithValue("@clave", p);
+					command.Parameters.AddWithValue("@mail", m);
 					connection.Open();
 					res = command.ExecuteNonQuery();
 					connection.Close();
@@ -136,6 +136,7 @@ namespace AplicacionPrueba.Models
 			}
 			return res;
 		}
+
 		public IList<Usuario> ObtenerTodos()
 		{
 			var res = new List<Usuario>();
@@ -203,7 +204,7 @@ namespace AplicacionPrueba.Models
 			Usuario e = null;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Avatar, Mail, Clave, Rol FROM Usuarios WHERE Mail=@mail";
+				string sql = $"SELECT Id, Nombre, Apellido, Avatar, Mail, Clave, Rol, Pregunta FROM Usuarios WHERE Mail=@mail";
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
 					command.CommandType = System.Data.CommandType.Text;
@@ -221,6 +222,7 @@ namespace AplicacionPrueba.Models
 							Mail = reader.GetString(4),
 							Clave = reader.GetString(5),
 							Rol = reader.GetInt32(6),
+							Pregunta = reader.GetString(7),
 						};
 					}
 					connection.Close();

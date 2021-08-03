@@ -254,31 +254,54 @@ namespace AplicacionPrueba.Controllers
                         numBytesRequested: 256 / 8));
 
                     var e = repositorioUsuario.ObtenerPorEmail(login.Usuario);
-                    
-                    if (e == null || e.Clave != hashed)
+
+                    if(String.IsNullOrEmpty(login.Pregunta))
                     {
-                        ModelState.AddModelError("", "El mail o la clave no son correctos");
-                        //TempData["returnUrl"] = returnUrl;
-                        return View();
-                    }
+                        if (e == null || e.Clave != hashed)
+                        {
+                            ModelState.AddModelError("", "El Mail o Pass no son correctos");
+                            //TempData["returnUrl"] = returnUrl;
+                            return View();
+                        }
 
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, e.Mail),
-                        new Claim("FullName", e.Nombre + " " + e.Apellido),
-                        new Claim(ClaimTypes.Role, e.RolNombre),
-                    };
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, e.Mail),
+                            new Claim("FullName", e.Nombre + " " + e.Apellido),
+                            new Claim(ClaimTypes.Role, e.RolNombre),
+                        };
 
-                    var claimsIdentity = new ClaimsIdentity(
-                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var claimsIdentity = new ClaimsIdentity(
+                            claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity));
+                        await HttpContext.SignInAsync(
+                            CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(claimsIdentity));
                         
-                    return RedirectToAction(nameof(Index), "Home");
+                        return RedirectToAction(nameof(Index), "Home");
+                    }
+                    else
+                    {
+                        if (e == null || login.Pregunta != e.Pregunta)
+                        {
+                            ModelState.AddModelError("", "Los datos no son correctos");
+                            return View();
+                        }
+                        else
+                        {
+                            string hashedNew = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                                password: login.Clave,
+                                salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
+                                prf: KeyDerivationPrf.HMACSHA1,
+                                iterationCount: 1000,
+                                numBytesRequested: 256 / 8));
+                            
+                            repositorioUsuario.ModificarPass(e.Mail, hashedNew); 
+                            ModelState.AddModelError("", "Todo OK. Password Renovado");
+                            return View(); 
+                        }
+                    }
                 }
-                //TempData["returnUrl"] = returnUrl;
                 return View();
             }
             catch (Exception ex)
@@ -286,6 +309,12 @@ namespace AplicacionPrueba.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View();
             }
+        }
+
+        // GET: Usuario/recuperaPass
+        public ActionResult RecuperaPass()
+        {
+            return View();
         }
 
         // GET: Usuario/Logout

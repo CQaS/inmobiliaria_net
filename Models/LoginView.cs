@@ -14,5 +14,7 @@ namespace AplicacionPrueba.Models
         public string Usuario { get; set; }
         [DataType(DataType.Password)]
         public string Clave { get; set; }
+        
+        public string Pregunta { get; set; }
 	}	
 }

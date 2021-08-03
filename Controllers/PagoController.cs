@@ -124,6 +124,8 @@ namespace AplicacionPrueba.Controllers
         [Authorize]
         public IActionResult Editar(int id)
         {
+            var lta = repositorioPago.obtener();
+            ViewData[nameof(Pago)] = lta;
             Pago i = repositorioPago.Buscar(id);
             return View(i);
         }
@@ -138,6 +140,7 @@ namespace AplicacionPrueba.Controllers
             try
             {
             repositorioPago.Editar(i);
+
             return RedirectToAction("Index");
             }
             catch (Exception ex)

@@ -126,9 +126,9 @@ namespace AplicacionPrueba.Controllers
         [Authorize]
         public IActionResult Editar(int id)
         {
-            Inmueble i = repositorioInmueble.Buscar(id);
             var lta = repositorioPropietario.obtener();
             ViewData[nameof(Propietario)] = lta;
+            Inmueble i = repositorioInmueble.Buscar(id);
             return View(i);
         }
 
