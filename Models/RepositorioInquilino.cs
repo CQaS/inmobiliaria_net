@@ -82,7 +82,6 @@ namespace AplicacionPrueba.Models
             return Inq;
         }
 
-
         public int Alta(Inquilino e)
         {
             var res = -1;

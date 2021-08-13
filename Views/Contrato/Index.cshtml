@@ -109,8 +109,8 @@
                 
                 @if(ViewContext.HttpContext.User.IsInRole("Administrador"))
                 {
-                <i class="fa fa-trash"></i>
-                @Html.ActionLink("Cancelar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Cancelar el Contrato de: " + @item.Inquilino.Nombre + "?')" })
+                    <i class="fa fa-trash"></i>
+                    @Html.ActionLink("Cancelar", "Delete", new { id=item.Id}, new { onclick = "return confirm('Cancelar el Contrato de: " + @item.Inquilino.Nombre + "?')" })
                 }
                 
             </td>

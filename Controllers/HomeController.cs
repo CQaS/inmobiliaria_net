@@ -12,6 +12,7 @@ namespace AplicacionPrueba.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        
         public HomeController(ILogger<HomeController> logger)
         {            
             _logger = logger;
@@ -27,7 +28,7 @@ namespace AplicacionPrueba.Controllers
             return View();
         }
 
-        public IActionResult creaar(Inquilino p)
+        public IActionResult crear(Inquilino p)
         {            
             return View();
         }
