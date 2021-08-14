@@ -21,7 +21,7 @@ namespace AplicacionPrueba.Models
             var res = new List<Inquilino>();
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT {nameof(Inquilino.Id)}, {nameof(Inquilino.Dni)}, {nameof(Inquilino.Nombre)}, Mail, {nameof(Inquilino.Direccion)}, {nameof(Inquilino.tel_inquilino)}, {nameof(Inquilino.lugarTrabajo)}, {nameof(Inquilino.nom_garante)}, {nameof(Inquilino.dni_garante)}, {nameof(Inquilino.tel_inquilino)} FROM inquilinos";
+                string sql = $"SELECT {nameof(Inquilino.Id)}, {nameof(Inquilino.Dni)}, {nameof(Inquilino.Nombre)}, {nameof(Inquilino.Mail)}, {nameof(Inquilino.Direccion)}, {nameof(Inquilino.tel_inquilino)}, {nameof(Inquilino.lugarTrabajo)}, {nameof(Inquilino.nom_garante)}, {nameof(Inquilino.dni_garante)}, {nameof(Inquilino.tel_inquilino)} FROM inquilinos";
                 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
