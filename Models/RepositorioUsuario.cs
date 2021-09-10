@@ -100,7 +100,8 @@ namespace AplicacionPrueba.Models
 			int res = -1;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql = $"CALL editarUsuario(@id, @nombre, @apellido, @rol, @clave)";
+				string sql="UPDATE Usuarios SET nombre=@nombre, apellido=@apellido, clave=@clave, rol=@rol WHERE id = @id";
+				
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
