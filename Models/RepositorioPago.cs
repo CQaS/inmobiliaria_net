@@ -55,7 +55,7 @@ namespace AplicacionPrueba.Models
             Pago p = null;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT p.Id, p.num_pago, p.Fecha, p.Importe,p.ContratoId,c.id_inquilino,c.id_inmueble FROM Pagos p INNER JOIN Contrato c ON p.ContratoId = c.Id WHERE p.Id= @id AND p.estado = 1";
+                string sql = $"SELECT p.Id, p.num_pago, p.Fecha, p.Importe,p.ContratoId,c.id_inquilino,c.id_inmueble FROM Pagos p INNER JOIN Contrato c ON p.ContratoId = c.Id WHERE p.ContratoId=@id AND p.estado = 1";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
