@@ -21,7 +21,7 @@
 
 <div class="container">
     <div>
-        <form method="post" asp-action="Editar">
+        <form method="post" asp-action="Editar" enctype="multipart/form-data">
             <input type="hidden" asp-for="Id_inmu" />
             <div class="form-group">
                 <label for="direccion" class="control-label">Direccion</label>
@@ -54,6 +54,11 @@
                 <span asp-validation-for="id_propietario" class="text-danger"></span>
             </div>
             <br>
+            <div class="form-group">
+                <label asp-for="FotoFile" class="control-label"></label>
+                <input type="file" name="FotoFile" />
+                <span asp-validation-for="FotoFile" class="text-danger"></span>
+            </div>
             <input type="submit" value="Confirmar" />
         </form>
     </div>

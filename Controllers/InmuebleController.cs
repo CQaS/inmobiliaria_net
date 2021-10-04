@@ -141,8 +141,32 @@ namespace AplicacionPrueba.Controllers
         {
             try
             {
-            repositorioInmueble.Editar(i);
-            return RedirectToAction("Index");
+                
+                
+                if(i.FotoFile !=null)
+                {
+                    string wwwPath = environment.WebRootPath;
+                    string path = Path.Combine(wwwPath, "img/fotos"+i.id_propietario);
+                    if(!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    string fileName = "Inmueble_" + DateTime.Now.ToString("dd_MM_yyyy") + DateTime.Now.ToString("hh_mm_ss") + Path.GetExtension(i.FotoFile.FileName);
+                    string pathCompleto = Path.Combine(path, fileName);
+                    i.foto = Path.Combine("/img/fotos"+i.id_propietario, fileName);
+                    using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                    {
+                        i.FotoFile.CopyTo(stream);
+                    }                    
+                }
+                else
+                {
+                    var inmuebleActual = repositorioInmueble.Buscar(i.Id_inmu);
+                    i.foto = inmuebleActual.foto;
+                }
+                
+                repositorioInmueble.Editar(i);
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

@@ -55,14 +55,6 @@ namespace AplicacionPrueba.Controllers
             return View();
         }
 
-        /* GET: Usuario/Details/5
-        [Authorize(Policy = "Administrador")]
-        public ActionResult Detailles(int id)
-        {
-            var e = repositorioUsuario.ObtenerPorId(id);
-            return View(e);
-        }*/
-
         // GET: Usuario/Create
         [Authorize(Policy = "Administrador")]
         public ActionResult Alta()
@@ -175,42 +167,64 @@ namespace AplicacionPrueba.Controllers
             var vista = "Editar";
             try
             {
-                if (!User.IsInRole("Administrador"))
-                {
+                
                     var usuarioActual = repositorioUsuario.ObtenerPorEmail(User.Identity.Name);
-                    if (usuarioActual.Id != id)//si no es admin, solo puede modificarse él mismo
+                    
+                    if (usuarioActual.Id != id && !User.IsInRole("Administrador"))//si no es admin, solo puede modificarse él mismo
+                    {
                         return RedirectToAction(nameof(Index), "Home");
+                    }                        
                     else
                     {
-                        u.Rol = usuarioActual.Rol;
-                        repositorioUsuario.Modifica(u);
-                        TempData["Mensaje"] = "Datos guardados correctamente"; 
-                        if (TempData.ContainsKey("Mensaje"))
-                            ViewBag.Mensaje = TempData["Mensaje"];
+                        if (!User.IsInRole("Administrador"))
+                        {
+                           u.Rol = usuarioActual.Rol; 
+                        }                    
 
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-                else
-                {
-                    if(u.Clave !=null){
-                        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        if(u.Clave !=null)
+                        {
+                            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                                 password: u.Clave,
                                 salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
                                 prf: KeyDerivationPrf.HMACSHA1,
                                 iterationCount: 1000,
                                 numBytesRequested: 256 / 8));
-                        u.Clave = hashed;
+                            u.Clave = hashed;
                         }
-                    repositorioUsuario.Modifica(u);
-                    TempData["Mensaje"] = "Datos guardados correctamente";
+                        else
+                        {
+                            u.Clave = usuarioActual.Clave;
+                        }
 
-                }
+                        if(u.AvatarFile !=null)
+                        {
+                            string wwwPath = environment.WebRootPath;
+                            string path = Path.Combine(wwwPath, "img/avatars");
+                            if(!Directory.Exists(path))
+                            {
+                                Directory.CreateDirectory(path);
+                            }
+                            string fileName = "avatar_" + u.Mail + Path.GetExtension(u.AvatarFile.FileName);
+                            string pathCompleto = Path.Combine(path, fileName);
+                            u.Avatar = Path.Combine("/img/avatars", fileName);
+                            using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                            {
+                                u.AvatarFile.CopyTo(stream);
+                            }
+                        }
+                        else
+                        {
+                            u.Avatar = usuarioActual.Avatar;
+                        }
 
-                if (TempData.ContainsKey("Mensaje"))
-                    ViewBag.Error = TempData["Mensaje"];
 
-                return RedirectToAction(nameof(Index));
+                        repositorioUsuario.Modifica(u);
+                        TempData["Mensaje"] = "Datos guardados correctamente";
+                        if (TempData.ContainsKey("Mensaje"))
+                            ViewBag.Error = TempData["Mensaje"];
+
+                        return RedirectToAction(nameof(Index));
+                    }
 
             }
             catch

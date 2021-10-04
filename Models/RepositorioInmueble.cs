@@ -193,7 +193,7 @@ namespace AplicacionPrueba.Models
             var i = 0;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"update inmueble set Direccion_in=@Direccion_in, Uso=@Uso, tipo=@tipo, ambientes=@ambientes, precio=@precio where Id_inmu=@id";
+                string sql = $"update inmueble set Direccion_in=@Direccion_in, Uso=@Uso, tipo=@tipo, ambientes=@ambientes, precio=@precio, foto=@foto where Id_inmu=@id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -207,6 +207,8 @@ namespace AplicacionPrueba.Models
                     command.Parameters["@ambientes"].Value = e.ambientes;
                     command.Parameters.Add("@precio", MySqlDbType.VarChar);
                     command.Parameters["@precio"].Value = e.precio;
+                    command.Parameters.Add("@foto", MySqlDbType.VarChar);
+                    command.Parameters["@foto"].Value = e.foto;
                     command.Parameters.Add("@id", MySqlDbType.VarChar);
                     command.Parameters["@id"].Value = e.Id_inmu;
                     connection.Open();

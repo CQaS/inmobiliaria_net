@@ -100,7 +100,7 @@ namespace AplicacionPrueba.Models
 			int res = -1;
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
-				string sql="UPDATE Usuarios SET nombre=@nombre, apellido=@apellido, clave=@clave, rol=@rol WHERE id = @id";
+				string sql="UPDATE Usuarios SET nombre=@nombre, apellido=@apellido, clave=@clave, rol=@rol, avatar=@avatar WHERE id = @id";
 				
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
@@ -109,6 +109,7 @@ namespace AplicacionPrueba.Models
 					command.Parameters.AddWithValue("@apellido", e.Apellido);
 					command.Parameters.AddWithValue("@rol", e.Rol);
 					command.Parameters.AddWithValue("@clave", e.Clave);
+					command.Parameters.AddWithValue("@avatar", e.Avatar);
 					command.Parameters.AddWithValue("@id", e.Id);
 					connection.Open();
 					res = command.ExecuteNonQuery();
