@@ -18,7 +18,10 @@
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.inquilino.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.inmueble.Direccion_in)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Num_Pago)
@@ -45,7 +48,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.inquilino.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.inmueble.Direccion_in)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Num_Pago)

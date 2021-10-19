@@ -27,14 +27,18 @@ namespace AplicacionPrueba.Models
 
         public string Avatar { get; set; }
 
+		[Display(Name = "Avatar")]
         public IFormFile AvatarFile{ get; set; }
 		
 		[Required, DataType(DataType.EmailAddress)]
 		public string Mail { get; set; }
+		
 		[Required, DataType(DataType.Password)]
 		public string Clave { get; set; }
 
+		[Display(Name = "Respuesta secreta")]
 		public string Pregunta { get; set; }
+		[Display(Name = "Rol de Usuario")]
 		public int Rol { get; set; }
 
 		[NotMapped]

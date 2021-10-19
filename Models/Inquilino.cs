@@ -26,7 +26,7 @@ namespace AplicacionPrueba.Models
         [Display(Name = "Lugar de Trabajo")]
         public String lugarTrabajo { get; set; }
         [Required]
-        [Display(Name = "Nombred del Garante")]
+        [Display(Name = "Nombre del Garante")]
         public String nom_garante { get; set; }
         [Required]
         [Display(Name = "DNI Garante")]

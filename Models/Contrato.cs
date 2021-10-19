@@ -26,9 +26,10 @@ namespace AplicacionPrueba.Models
         [Display(Name = "Inquilino")]
         public int id_inquilino { get; set; }
         
-        public Inquilino Inquilino { get; set; }
         [Display(Name = "Inmueble")]
-        public int id_inmueble { get; set; }        
+        public int id_inmueble { get; set; }
+
+        public Inquilino Inquilino { get; set; }        
 
         public Inmueble Inmueble { get; set; }
     }

@@ -12,22 +12,9 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-success border-bottom box-shadow mb-3">
-            @if (!User.Identity.IsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                    <img src="/img/logo.png" width="180" height="53" data-toggle="collapse" data-target="#navbarNav" alt="" loading="lazy" style="position:relative; bottom:1px; margin-right:800px;">
-                </a>
-
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <h6>Ingresa para ver el Menu!</h6>
-                    </li>
-                </ul>
-
-            }
-            else
-            {
-            <div class="container">
+             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Inmobiliaria NET</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +57,7 @@
 						</div>
 					</div>
                 </div>
-            </div>
+             </div>
             }
         </nav>
     </header>
@@ -100,11 +87,14 @@
         </main>
     </div>
 
+@if (User.Identity.IsAuthenticated)
+{
     <footer class="border-top footer text-muted bg-primary">
         <div class="container">
             &copy; 2021 - Inmobiliaria NET
         </div>
     </footer>
+}
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -21,7 +21,7 @@ namespace AplicacionPrueba.Models
             var res = new List<Pago>();
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT p.Id, p.num_pago, p.Fecha , p.Importe, p.ContratoId, c.id_inquilino , c.id_inmueble FROM Pagos p INNER JOIN Contrato c ON p.ContratoId = c.Id WHERE p.estado = 1";
+                string sql = $"SELECT p.id, p.num_Pago, p.fecha , p.importe, p.ContratoId, c.id_inquilino , c.id_inmueble, inq.Nombre, i.direccion_in FROM Pagos p JOIN Contrato c ON p.ContratoId = c.id JOIN inquilinos inq ON inq.id = c.id_inquilino JOIN inmueble i ON i.id_Inmu = c.id_inmueble WHERE p.estado = 1";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -39,6 +39,14 @@ namespace AplicacionPrueba.Models
                             {
                                 id_inquilino = reader.GetInt32(5),
 							    id_inmueble = reader.GetInt32(6),
+                            },
+                            inquilino = new Inquilino
+                            {
+                                Nombre = reader.GetString(7),
+                            },
+                            inmueble = new Inmueble
+                            {
+                                Direccion_in = reader.GetString(8),
                             },
                         };
                         res.Add(e);
