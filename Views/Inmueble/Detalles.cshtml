@@ -11,17 +11,7 @@
  else
  {
 
-<style>
-  .image img {
-  width: 220px;
-  height: auto;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-.my-form {
-  padding: 2.5rem;
-}
-</style>
+<link href="~/css/general.css" rel="stylesheet" type="text/css" />
 
 <h1>Datalles del Inmueble: @Model.Direccion_in</h1>
 
@@ -31,7 +21,7 @@
             <div class="image">
                 @if (Model.foto != "")
                 {
-                    <img src="@Model.foto" height="100" width="100" style="border-radius: 40px; margin: 20px 0 0 10px;border: 2px solid #fff;"/> 
+                    <img src="@Model.foto" height="100" width="100" style=""/> 
                 }
                 else
                 {
